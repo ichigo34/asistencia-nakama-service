@@ -1,0 +1,34 @@
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url("../img/fondo-oficina.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000000;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.select2-container--default .select2-selection--single {
+    height: 38px;
+    padding: 6px 12px;
+}
+
