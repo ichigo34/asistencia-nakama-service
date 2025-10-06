@@ -46,9 +46,15 @@ empleados_data_sorted = sorted(
     key=lambda e: (e["apellidos"].lower(), e["nombres"].lower())
 )
 
-Empleado.objects.bulk_create([
-    Empleado(**e) for e in empleados_data_sorted
-])
+# Inserción/actualización masiva por clave única DNI
+# - Si ya existe el DNI, actualiza nombres, apellidos y contrato
+# - Si no existe, crea el registro
+Empleado.objects.bulk_create(
+    [Empleado(**e) for e in empleados_data_sorted],
+    update_conflicts=True,
+    update_fields=["nombres", "apellidos", "contrato"],
+    unique_fields=["dni"],
+)
 
 # Crear tipos de asistencia si no existen
 tipos = [
