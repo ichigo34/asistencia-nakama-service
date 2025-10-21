@@ -417,3 +417,63 @@ def registrar_asistencia(request):
         'empleados': empleados,
         'tipos_evento': tipos_evento
     })
+            ).exists()
+            if ya_existe:
+                messages.warning(request, f'Ya registraste "{tipo_asistencia.nombre_asistencia}" hoy.')
+                return render(request, 'formulario.html', {
+                    'empleados': empleados,
+                    'tipos_evento': tipos_evento
+                })
+
+        # Validar si este fingerprint ya fue usado hoy por otro empleado
+        uso_invalido = RegistroAsistencia.objects.filter(
+            ~Q(empleado=empleado),
+            fingerprint=fingerprint,
+            fecha_registro=fecha
+        ).exists()
+        if uso_invalido:
+            messages.error(request, "Este dispositivo ya ha sido usado para registrar la asistencia de otro empleado hoy.")
+>>>>>>> bbcc426144323bf9736a4895dedc6c796ce1836c
+            return render(request, 'formulario.html', {
+                'empleados': empleados,
+                'tipos_evento': tipos_evento
+            })
+
+<<<<<<< HEAD
+        # Usar el servicio para crear el registro
+        success, message, registro = AsistenciaService.crear_registro_asistencia(
+            empleado_id, tipo_id, descripcion, fingerprint
+        )
+
+        if success:
+            messages.success(request, message)
+            fecha, hora = obtener_fecha_hora_actual()
+            return render(request, 'asistencia_exitosa.html', {
+                'fecha': fecha,
+                'hora': hora,
+                'empleado': registro.empleado
+            })
+        else:
+            messages.error(request, message)
+=======
+        RegistroAsistencia.objects.create(
+            empleado=empleado,
+            tipo=tipo_asistencia,
+            fecha_registro=fecha,
+            hora_registro=hora,
+            descripcion=descripcion,
+            fingerprint=fingerprint
+        )
+
+        messages.success(request, f'{tipo_asistencia.nombre_asistencia} registrada correctamente.')
+        return render(request, 'asistencia_exitosa.html', {
+            'fecha': fecha,
+            'hora': hora,
+            'empleado': empleado
+        })
+>>>>>>> bbcc426144323bf9736a4895dedc6c796ce1836c
+
+    return render(request, 'formulario.html', {
+        'empleados': empleados,
+        'tipos_evento': tipos_evento
+    })

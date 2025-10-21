@@ -14,4 +14,3 @@ url = f"{BASE_URL.rstrip('/')}{DEST_PATH}"
 
 img = qrcode.make(url)
 img.save("qr_asistencia.png")
-
