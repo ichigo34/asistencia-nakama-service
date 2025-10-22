@@ -9,20 +9,21 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/theme.css' %}">
   <link rel="stylesheet" href="{% static 'css/descarga.css' %}">
-  <link rel="stylesheet" href="{% static 'css/premium.css' %}">
 </head>
 
 <body>
-  <div class="container px-3 mt-4">
-    <section class="page-hero text-center">
-      <div class="title">Panel de descargas</div>
-      <p class="subtitle">Exporta reportes en Excel</p>
-      <div class="actions d-grid gap-2 justify-content-center">
-        <a href="{% url 'descargar_excel' %}" class="btn btn-premium">Descargar asistencias</a>
-        <a href="{% url 'resumen_excel' %}" class="btn btn-outline-premium">Descargar resumen</a>
-      </div>
-    </section>
+  <div class="card text-center">
+    <h2>Panel de Descarga de Asistencia</h2>
+    <p>Solo usuarios administradores pueden acceder a esta página.</p>
+
+    <div class="d-grid gap-3 mt-4">
+      <a href="{% url 'descargar_excel' %}" class="btn btn-success btn-md">
+        Descargar Excel de Asistencias
+      </a>
+      <a href="{% url 'resumen_excel' %}" class="btn btn-success btn-md">
+        Descargar Excel de Resumen de Asistencias
+      </a>
+    </div>
   </div>
-  <script src="{% static 'js/theme.js' %}"></script>
 </body>
 </html>
