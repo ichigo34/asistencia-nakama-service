@@ -1,14 +1,24 @@
 :root{
-    --brand-primary:#3c3ff2; /* azul/púrpura de Nakama */
-    --brand-primary-dark:#2c2fd6;
-    --brand-accent:#f5b301; /* amarillo Nakama */
-    --brand-accent-dark:#d99c00;
+    /* Paleta corporativa */
+    --brand-primary:#1e2b5c; /* Azul corporativo oscuro */
+    --brand-primary-dark:#2d3e7f; /* Azul corporativo medio (hover) */
+    --brand-accent:#f59e0b; /* CTA dorado/naranja */
+    --brand-accent-dark:#ff9500;
+
+    --white:#ffffff;
+    --gray-50:#f3f4f6;
+    --gray-500:#6b7280;
+
+    --success:#10b981;
+    --danger:#ef4444;
+    --warning:#f59e0b;
+    --info:#3b82f6;
 }
 
 body {
-    background: #ffffff; /* fondo limpio como el mockup */
+    background: var(--gray-50);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #000000;
+    color: #0f172a;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -16,12 +26,13 @@ body {
 }
 
 .card {
-    background-color: #ffffff;
-    color: #333;
+    background-color: var(--white);
+    color: #1f2937;
     border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(30,43,92,0.06);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     animation: fadeIn 0.6s ease;
-    max-width: 340px;
+    max-width: 360px;
     margin: 16px auto;
 }
 
@@ -37,21 +48,22 @@ body {
     padding: 10px 16px;
     border-radius: 12px;
     font-weight: 800;
-    font-size: 1.1rem;
-    box-shadow: 0 4px 10px rgba(44, 47, 214, 0.25);
+    font-size: 1.05rem;
+    letter-spacing: .2px;
+    box-shadow: 0 4px 10px rgba(30, 43, 92, 0.25);
 }
 
 /* Botón amarillo ENTRAR */
 .btn-entrar {
-    background-color: #1aa96b; /* verde del mockup */
+    background-color: var(--brand-accent);
     border: none;
     color: #ffffff;
     font-weight: 700;
     border-radius: 18px;
-    padding: 6px 18px;
+    padding: 8px 18px;
     font-size: .95rem;
 }
-.btn-entrar:hover { background-color: #15935c; color: #ffffff; }
+.btn-entrar:hover { background-color: var(--brand-accent-dark); color: #ffffff; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
@@ -60,16 +72,27 @@ body {
 
 /* Controles compactos y con foco azul */
 .form-select, .form-control { height: 34px; padding: 4px 10px; font-size: .95rem; border-radius: 8px; }
-.form-select:focus, .form-control:focus { border-color: var(--brand-primary); box-shadow: 0 0 0 .2rem rgba(60,63,242,.12); }
+.form-select:focus, .form-control:focus { border-color: var(--info); box-shadow: 0 0 0 .2rem rgba(59,130,246,.18); }
 
 .select2-container--default .select2-selection--single { height: 34px; padding: 3px 10px; border-color: #cfd4da; border-radius: 8px; }
 .select2-container--default .select2-selection--single .select2-selection__arrow b{ border-color: #666 transparent transparent transparent; }
 .select2-container--default .select2-results__option--highlighted[aria-selected]{ background-color: var(--brand-primary); }
-.select2-container--default .select2-selection--single:focus { border-color: var(--brand-primary); }
+.select2-container--default .select2-selection--single:focus { border-color: var(--info); }
 
 /* Tarjeta compacta para éxito */
 .success-card { border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.15); }
 
-/* Botón primario al color de marca */
+/* Botones y estados Bootstrap mapeados a la paleta */
 .btn-primary{ background-color: var(--brand-primary) !important; border-color: var(--brand-primary) !important; }
 .btn-primary:hover{ background-color: var(--brand-primary-dark) !important; border-color: var(--brand-primary-dark) !important; }
+.btn-success{ background-color: var(--success) !important; border-color: var(--success) !important; }
+.btn-danger{ background-color: var(--danger) !important; border-color: var(--danger) !important; }
+.btn-warning{ background-color: var(--warning) !important; border-color: var(--warning) !important; color:#111827 !important; }
+.btn-info{ background-color: var(--info) !important; border-color: var(--info) !important; }
+
+.alert-success{ color:#065f46; background:#ecfdf5; border-color:#d1fae5; }
+.alert-danger{ color:#7f1d1d; background:#fef2f2; border-color:#fee2e2; }
+.alert-warning{ color:#78350f; background:#fffbeb; border-color:#fde68a; }
+.alert-info{ color:#1e40af; background:#eff6ff; border-color:#bfdbfe; }
+
+.text-muted{ color: var(--gray-500) !important; }
