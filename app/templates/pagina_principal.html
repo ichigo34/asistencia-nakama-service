@@ -6,20 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Asistencia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
 </head>
 <body>
     <div class="container px-3">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6">
-                <div class="card p-4 mt-5 text-center">
-                    <div class="mb-3"><span class="header-chip">Sistema de asistencia</span></div>
+            <div class="col-12 col-md-9 col-lg-7">
+                <div class="card hero-card p-4 mt-5 text-center">
+                    <div class="brand-bar"><span class="brand-pill">NAKAMA • Asistencia</span></div>
                     <div class="card-body pt-0">
-                        <div class="text-center mb-3">
-                            <small class="text-muted">Usa tu celular para registrarte</small>
+                        <h4 class="fw-bold mb-2" style="color:#0f172a">Sistema de asistencia</h4>
+                        <div class="mb-3">
+                            <span class="qr-badge"><i class="bi bi-phone"></i> Usa tu celular para registrarte</span>
                         </div>
-                        <div class="d-grid">
-                            <a href="{% url 'identificar_dispositivo' %}" class="btn btn-entrar btn-lg">QR general (auto-identificación)</a>
+                        <p class="helper-text mb-4">Primera vez te vinculamos por dispositivo. Luego te reconocemos automáticamente.</p>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'identificar_dispositivo' %}" class="btn btn-cta"><i class="bi bi-qr-code-scan me-2"></i>QR general (auto-identificación)</a>
                         </div>
                     </div>
                 </div>
