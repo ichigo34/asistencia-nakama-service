@@ -1,0 +1,63 @@
+body {
+  background: linear-gradient(to right, #4e54c8, #8f94fb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  max-width: 500px;
+  width: 100%;
+  margin: 1rem;
+  box-sizing: border-box;
+}
+
+.btn-lg,
+.btn-md {
+  font-size: 1.1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+}
+
+h2 {
+  color: #1565c0;
+  font-weight: 600;
+}
+
+p {
+  color: #555;
+}
+
+.btn-success {
+  background-color: #80a0cd;
+  border: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 576px) {
+  .card {
+    padding: 1.5rem 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .btn-md {
+    font-size: 1rem;
+    padding: 0.65rem 1.2rem;
+  }
+}

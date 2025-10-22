@@ -1,0 +1,82 @@
+:root{
+    --brand-primary:#3c3ff2; /* azul/púrpura de Nakama */
+    --brand-primary-dark:#2c2fd6;
+    --brand-accent:#f5b301; /* amarillo Nakama */
+    --brand-accent-dark:#d99c00;
+}
+
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url("../img/fondo-oficina.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000000;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+/* Encabezado estilo "chip" morado como en el diseño */
+.header-chip {
+    background-color: var(--brand-primary);
+    color: #fff;
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(44, 47, 214, 0.25);
+}
+
+/* Botón amarillo ENTRAR */
+.btn-entrar {
+    background-color: var(--brand-accent);
+    border: none;
+    color: #1f2328;
+    font-weight: 800;
+}
+.btn-entrar:hover { background-color: var(--brand-accent-dark); color: #1f2328; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Controles con foco al color de marca */
+.form-select:focus, .form-control:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 .2rem rgba(60,63,242,.15);
+}
+
+.select2-container--default .select2-selection--single {
+    height: 38px;
+    padding: 6px 12px;
+    border-color: #ced4da;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b{ border-color: #666 transparent transparent transparent; }
+.select2-container--default .select2-results__option--highlighted[aria-selected]{
+    background-color: var(--brand-primary);
+}
+.select2-container--default .select2-selection--single:focus {
+    border-color: var(--brand-primary);
+}
+
+/* Tarjeta compacta para éxito */
+.success-card { border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.15); }
+
+/* Botón primario al color de marca */
+.btn-primary{ background-color: var(--brand-primary) !important; border-color: var(--brand-primary) !important; }
+.btn-primary:hover{ background-color: var(--brand-primary-dark) !important; border-color: var(--brand-primary-dark) !important; }
