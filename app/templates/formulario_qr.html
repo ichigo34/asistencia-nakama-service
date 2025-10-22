@@ -11,16 +11,17 @@
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'css/theme.css' %}">
   <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
+  <link rel="stylesheet" href="{% static 'css/premium.css' %}">
 </head>
 <body>
-  <div class="container px-3">
-    <div class="row justify-content-center">
+  <div class="container px-3 mt-4">
+    <section class="page-hero">
+      <div class="title">Registro de asistencia</div>
+      <p class="subtitle">Para equipos vinculados por QR y validación por dispositivo.</p>
+    </section>
+    <div class="row justify-content-center mt-4">
       <div class="col-12 col-md-10 col-lg-7 col-xl-6">
-        <div class="card p-4 text-center">
-          <div class="mb-3">
-            <span class="header-chip">Registro de asistencia</span>
-          </div>
-<div class="brand-bar"><span class="brand-pill"><img src="{% static 'img/logo-nakama.svg' %}" alt="Nakama">NAKAMA • Asistencia</span></div>
+        <div class="card card-premium p-4 text-center">
           <div class="card-body pt-0">
             <form method="POST" class="text-start">
               {% csrf_token %}
@@ -43,7 +44,7 @@
               <input type="hidden" name="fingerprint" id="fingerprint_input">
 
               <div class="d-grid">
-                <button type="submit" class="btn btn-entrar btn-lg">ENTRAR</button>
+                <button type="submit" class="btn btn-premium btn-lg">Registrar</button>
               </div>
             </form>
           </div>
@@ -155,5 +156,6 @@
   });
 </script>
 
+  <script src="{% static 'js/theme.js' %}"></script>
 </body>
 </html>

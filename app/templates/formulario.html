@@ -11,16 +11,18 @@
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'css/theme.css' %}">
   <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
+  <link rel="stylesheet" href="{% static 'css/premium.css' %}">
 </head>
 <body>
-  <div class="container px-3">
-    <div class="row justify-content-center">
+  <div class="container px-3 mt-4">
+    <section class="page-hero">
+      <div class="title">Registro de Asistencia</div>
+      <p class="subtitle">Selecciona tu nombre y el tipo de evento. Validación por dispositivo y ubicación.</p>
+    </section>
+    <div class="row justify-content-center mt-4">
       <div class="col-12 col-md-10 col-lg-7 col-xl-6">
-        <div class="card p-4">
-          <div class="card-header bg-primary text-white text-center rounded-3">
-            <h4 class="mb-0">Registro de Asistencia</h4>
-          </div>
-          <div class="card-body mt-3">
+        <div class="card card-premium p-4">
+          <div class="card-body">
             <form method="POST">
               {% csrf_token %}
 
@@ -57,7 +59,7 @@
               </div> -->
 
               <div class="d-grid">
-                <button type="submit" class="btn btn-success btn-lg">Registrar Asistencia</button>
+                <button type="submit" class="btn btn-premium btn-lg">Registrar asistencia</button>
               </div>
             </form>
           </div>
@@ -152,5 +154,6 @@
 
 
 
+  <script src="{% static 'js/theme.js' %}"></script>
 </body>
 </html>
