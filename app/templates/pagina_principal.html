@@ -12,39 +12,14 @@
     <div class="container px-3">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
-                <div class="card p-4 mt-5">
-                    <div class="card-header bg-primary text-white text-center rounded-3">
-                        <h3 class="mb-0">🏢 Sistema de Asistencia</h3>
-                    </div>
-                    <div class="card-body mt-3">
-                        <div class="text-center mb-4">
-                            <h5>Selecciona tu método de registro:</h5>
+                <div class="card p-4 mt-5 text-center">
+                    <div class="mb-3"><span class="header-chip">Sistema de asistencia</span></div>
+                    <div class="card-body pt-0">
+                        <div class="text-center mb-3">
+                            <small class="text-muted">Usa tu celular para registrarte</small>
                         </div>
-                        
-                        <div class="d-grid gap-3">
-                            <!-- QR general (recomendado) -->
-                            <a href="{% url 'identificar_dispositivo' %}" class="btn btn-success btn-lg">
-                                📱 QR general (auto-identificación)
-                                <small class="d-block">Primera vez: elige tu nombre. Luego: te reconoce solo.</small>
-                            </a>
-                            
-                            <!-- QR por empleado (opcional) -->
-                            <a href="{% url 'escanear_qr' %}" class="btn btn-outline-success btn-lg">
-                                📷 Escanear QR por empleado
-                                <small class="d-block">Si usas QR individual</small>
-                            </a>
-                            
-                            <!-- Opción Manual -->
-                            <a href="{% url 'registrar_asistencia' %}" class="btn btn-outline-primary btn-lg">
-                                ✏️ Registro Manual
-                                <small class="d-block">Seleccionar empleado manualmente</small>
-                            </a>
-                        </div>
-                        
-                        <div class="mt-4 text-center">
-                            <small class="text-muted">
-                                💡 Recomendamos usar el código QR para mayor rapidez
-                            </small>
+                        <div class="d-grid">
+                            <a href="{% url 'identificar_dispositivo' %}" class="btn btn-entrar btn-lg">QR general (auto-identificación)</a>
                         </div>
                     </div>
                 </div>
