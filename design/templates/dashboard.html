@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Asistencia — Dashboard</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="app" data-sidebar-collapsed="false">
+      <aside class="sidebar">
+        <div class="logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2l7.5 4v12L12 22l-7.5-4V6L12 2z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#FFA31A"/><stop offset="1" stop-color="#2433FF"/></linearGradient></defs></svg><span>Asistencia</span></div>
+        <nav>
+          <div class="nav-section">Menú</div>
+          <a class="active" href="#"><span>Dashboard</span></a>
+          <a href="#"><span>Asistencias</span></a>
+          <a href="#"><span>Colaboradores</span></a>
+          <a href="#"><span>Reportes</span></a>
+        </nav>
+      </aside>
+
+      <header class="topbar">
+        <div class="search"><input class="input" placeholder="Buscar…" /></div>
+        <div class="actions">
+          <button class="btn btn-subtle btn-icon" data-action="sidebar-toggle">≡</button>
+          <button class="btn btn-outline" data-action="theme-toggle">Tema</button>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="container">
+          <section class="page-hero">
+            <div class="title">Dashboard</div>
+            <p class="subtitle">Resumen en tiempo real del equipo y la asistencia.</p>
+            <div class="actions">
+              <button class="btn btn-primary">Registrar asistencia</button>
+              <button class="btn btn-outline">Ver reportes</button>
+            </div>
+          </section>
+          <div class="kpis mt-6">
+            <div class="kpi">
+              <div class="label">Asistencia hoy</div>
+              <div class="value">92%</div>
+              <div class="delta up small">+2.3% vs ayer</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Llegadas tarde</div>
+              <div class="value">14</div>
+              <div class="delta down small">-3 esta semana</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Ausencias</div>
+              <div class="value">6</div>
+              <div class="delta up small">+1 hoy</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Activos</div>
+              <div class="value">248</div>
+              <div class="small">de 262</div>
+            </div>
+          </div>
+
+          <div class="grid grid-2 mt-6">
+            <section class="card">
+              <div class="card-header"><h3>Asistencia semanal</h3></div>
+              <div class="card-body">
+                <div style="height:260px;display:grid;place-items:center;color:var(--text-soft)">[Gráfico aquí]</div>
+              </div>
+            </section>
+            <section class="card">
+              <div class="card-header"><h3>Alertas</h3></div>
+              <div class="card-body grid" style="gap:12px">
+                <div class="badge warning">Múltiples llegadas tarde en Soporte</div>
+                <div class="badge danger">2 ausencias sin justificar</div>
+                <div class="badge info">Nuevos colaboradores añadidos</div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+    <button class="fab">Nuevo registro</button>
+    <script src="../assets/theme.js"></script>
+  </body>
+</html>
