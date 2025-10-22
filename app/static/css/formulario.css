@@ -6,9 +6,7 @@
 }
 
 body {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                url("../img/fondo-oficina.jpg") no-repeat center center fixed;
-    background-size: cover;
+    background: #ffffff; /* fondo limpio como el mockup */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #000000;
     min-height: 100vh;
@@ -18,11 +16,13 @@ body {
 }
 
 .card {
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: #ffffff;
     color: #333;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 1s ease;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    animation: fadeIn 0.6s ease;
+    max-width: 340px;
+    margin: 16px auto;
 }
 
 .form-label {
@@ -43,36 +43,29 @@ body {
 
 /* Botón amarillo ENTRAR */
 .btn-entrar {
-    background-color: var(--brand-accent);
+    background-color: #1aa96b; /* verde del mockup */
     border: none;
-    color: #1f2328;
-    font-weight: 800;
+    color: #ffffff;
+    font-weight: 700;
+    border-radius: 18px;
+    padding: 6px 18px;
+    font-size: .95rem;
 }
-.btn-entrar:hover { background-color: var(--brand-accent-dark); color: #1f2328; }
+.btn-entrar:hover { background-color: #15935c; color: #ffffff; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Controles con foco al color de marca */
-.form-select:focus, .form-control:focus {
-    border-color: var(--brand-primary);
-    box-shadow: 0 0 0 .2rem rgba(60,63,242,.15);
-}
+/* Controles compactos y con foco azul */
+.form-select, .form-control { height: 34px; padding: 4px 10px; font-size: .95rem; border-radius: 8px; }
+.form-select:focus, .form-control:focus { border-color: var(--brand-primary); box-shadow: 0 0 0 .2rem rgba(60,63,242,.12); }
 
-.select2-container--default .select2-selection--single {
-    height: 38px;
-    padding: 6px 12px;
-    border-color: #ced4da;
-}
+.select2-container--default .select2-selection--single { height: 34px; padding: 3px 10px; border-color: #cfd4da; border-radius: 8px; }
 .select2-container--default .select2-selection--single .select2-selection__arrow b{ border-color: #666 transparent transparent transparent; }
-.select2-container--default .select2-results__option--highlighted[aria-selected]{
-    background-color: var(--brand-primary);
-}
-.select2-container--default .select2-selection--single:focus {
-    border-color: var(--brand-primary);
-}
+.select2-container--default .select2-results__option--highlighted[aria-selected]{ background-color: var(--brand-primary); }
+.select2-container--default .select2-selection--single:focus { border-color: var(--brand-primary); }
 
 /* Tarjeta compacta para éxito */
 .success-card { border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.15); }
