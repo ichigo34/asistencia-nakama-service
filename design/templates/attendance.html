@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Asistencia — Registros</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body>
+    <div class="app" data-sidebar-collapsed="false">
+      <aside class="sidebar">
+        <div class="logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2l7.5 4v12L12 22l-7.5-4V6L12 2z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#FFA31A"/><stop offset="1" stop-color="#2433FF"/></linearGradient></defs></svg><span>Asistencia</span></div>
+        <nav>
+          <a href="#">Dashboard</a>
+          <a class="active" href="#">Asistencias</a>
+          <a href="#">Colaboradores</a>
+          <a href="#">Reportes</a>
+        </nav>
+      </aside>
+
+      <header class="topbar">
+        <div class="search">
+          <input class="input" placeholder="Buscar por nombre o ID…" />
+        </div>
+        <div class="actions">
+          <button class="btn btn-subtle btn-icon" data-action="sidebar-toggle">≡</button>
+          <button class="btn btn-outline" data-action="theme-toggle">Tema</button>
+          <button class="btn btn-primary">Exportar</button>
+        </div>
+      </header>
+
+      <main class="main">
+        <div class="container">
+          <section class="page-hero">
+            <div class="title">Registros de asistencia</div>
+            <p class="subtitle">Filtra, edita y exporta los movimientos.</p>
+            <div class="actions filters">
+              <select class="select">
+                <option>Hoy</option>
+                <option>Esta semana</option>
+                <option>Este mes</option>
+                <option>Personalizado…</option>
+              </select>
+              <select class="select">
+                <option>Todos los departamentos</option>
+                <option>RRHH</option>
+                <option>Operaciones</option>
+                <option>Soporte</option>
+              </select>
+              <select class="select">
+                <option>Todos los estados</option>
+                <option>Presente</option>
+                <option>Tarde</option>
+                <option>Ausente</option>
+              </select>
+              <button class="btn btn-outline">Filtrar</button>
+              <button class="btn btn-subtle">Limpiar</button>
+              <button class="btn btn-primary">Exportar</button>
+            </div>
+          </section>
+          <div class="card mt-6">
+            <div class="card-header">
+              <div class="small">Resultados</div>
+                <select class="select">
+                  <option>Hoy</option>
+                  <option>Esta semana</option>
+                  <option>Este mes</option>
+                  <option>Personalizado…</option>
+                </select>
+                <select class="select">
+                  <option>Todos los departamentos</option>
+                  <option>RRHH</option>
+                  <option>Operaciones</option>
+                  <option>Soporte</option>
+                </select>
+                <select class="select">
+                  <option>Todos los estados</option>
+                  <option>Presente</option>
+                  <option>Tarde</option>
+                  <option>Ausente</option>
+                </select>
+                <div class="flex gap-4">
+                  <button class="btn btn-outline">Filtrar</button>
+                  <button class="btn btn-subtle">Limpiar</button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-wrap">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Colaborador</th>
+                      <th>Departamento</th>
+                      <th>Entrada</th>
+                      <th>Salida</th>
+                      <th>Estado</th>
+                      <th class="cell-right">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>00123</td>
+                      <td>María Pérez</td>
+                      <td>Operaciones</td>
+                      <td>08:59</td>
+                      <td>17:12</td>
+                      <td><span class="chip present"><span class="status-dot present"></span> Presente</span></td>
+                      <td class="cell-right">
+                        <button class="btn btn-subtle">Ver</button>
+                        <button class="btn btn-outline">Editar</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>00456</td>
+                      <td>Carlos Ruiz</td>
+                      <td>Soporte</td>
+                      <td>09:21</td>
+                      <td>—</td>
+                      <td><span class="chip late"><span class="status-dot late"></span> Tarde</span></td>
+                      <td class="cell-right">
+                        <button class="btn btn-subtle">Ver</button>
+                        <button class="btn btn-outline">Editar</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>00789</td>
+                      <td>Ana Gómez</td>
+                      <td>RRHH</td>
+                      <td>—</td>
+                      <td>—</td>
+                      <td><span class="chip absent"><span class="status-dot absent"></span> Ausente</span></td>
+                      <td class="cell-right">
+                        <button class="btn btn-subtle">Ver</button>
+                        <button class="btn btn-outline">Editar</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <button class="fab">Añadir asistencia</button>
+    <script src="../assets/theme.js"></script>
+  </body>
+</html>

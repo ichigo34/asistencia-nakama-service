@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Asistencia — Acceso</title>
+    <link rel="stylesheet" href="../assets/styles.css" />
+  </head>
+  <body class="theme-dark">
+    <div class="auth">
+      <div class="panel">
+        <div class="brand">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><path d="M12 2l7.5 4v12L12 22l-7.5-4V6L12 2z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#FFA31A"/><stop offset="1" stop-color="#2433FF"/></linearGradient></defs></svg>
+          <h2>Iniciar sesión</h2>
+          <p class="small">Bienvenido al sistema de asistencia</p>
+        </div>
+        <form class="grid" style="gap:16px">
+          <div class="form-field">
+            <label class="label">Correo</label>
+            <input class="input" type="email" placeholder="tucorreo@empresa.com" />
+          </div>
+          <div class="form-field">
+            <label class="label">Contraseña</label>
+            <input class="input" type="password" placeholder="••••••••" />
+          </div>
+          <button class="btn btn-primary" type="submit">Entrar</button>
+        </form>
+        <div class="small" style="text-align:center">© <span id="y"></span> Tu Empresa</div>
+      </div>
+    </div>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  </body>
+</html>
