@@ -54,6 +54,11 @@ body::before{
     padding:1px;
 }
 
+/* líneas de neón decorativas */
+.glow-line{ position:absolute; height:3px; background: linear-gradient(90deg, #00b4ff, #3b82f6, #f5b301); filter: blur(0.6px); opacity:.9; }
+.gl1{ top:18px; left:-50px; width:160px; transform: rotate(-10deg); }
+.gl2{ bottom:18px; right:-50px; width:160px; transform: rotate(-10deg); }
+
 .brand-bar{ position:relative; width:100%; display:flex; justify-content:center; margin-bottom:10px; }
 .brand-pill{
     background: linear-gradient(90deg, var(--brand-primary), var(--brand-primary-dark));
@@ -61,11 +66,16 @@ body::before{
     padding: 8px 14px; border-radius: 999px; box-shadow: 0 6px 16px rgba(0,0,0,.25);
 }
 
+.title-gradient{ background: linear-gradient(90deg, #00b4ff, #3b82f6, #f5b301); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
 .qr-badge{ display:inline-flex; align-items:center; gap:8px; background: rgba(15,30,82,.08); color:#0f172a; border:1px solid rgba(15,30,82,.12); border-radius:999px; padding:6px 12px; }
 .qr-badge i{ color: var(--brand-primary-dark); }
 
-.btn-cta{ background: linear-gradient(180deg, var(--brand-accent), var(--brand-accent-dark)); color:#0f172a; font-weight:800; border:none; border-radius: 28px; padding:12px 20px; font-size:1rem; box-shadow: 0 10px 24px rgba(245,179,1,.35); text-transform:uppercase; }
+.btn-cta{ position:relative; overflow:hidden; background: linear-gradient(180deg, var(--brand-accent), var(--brand-accent-dark)); color:#0f172a; font-weight:800; border:none; border-radius: 28px; padding:12px 20px; font-size:1rem; box-shadow: 0 10px 24px rgba(245,179,1,.35); text-transform:uppercase; }
 .btn-cta:hover{ filter:brightness(1.06); color:#0b1324; }
+.btn-cta::after{ content:""; position:absolute; inset:0; background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.35) 30%, transparent 60%); transform: translateX(-100%); }
+.btn-cta:hover::after{ animation: shine 1.1s ease; }
+@keyframes shine{ to{ transform: translateX(120%); } }
 
 .helper-text{ color: var(--gray-500); font-size:.9rem; }
 
