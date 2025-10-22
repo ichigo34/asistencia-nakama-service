@@ -1,11 +1,11 @@
 :root{
-    /* Paleta high-tech (azul, amarillo, blanco y negro) */
+    /* Paleta corporativa: azul, blanco, amarillo y plomo (gris) */
     --brand-primary:#0f1e52; /* azul profundo */
     --brand-primary-dark:#1f3b8d; /* azul hover */
     --brand-accent:#f5b301; /* amarillo CTA */
     --brand-accent-dark:#d99c00;
 
-    --black:#070b15;
+    --black:#1f2937; /* plomo oscuro de fondo */
     --white:#ffffff;
     --gray-50:#f3f4f6;
     --gray-500:#6b7280;

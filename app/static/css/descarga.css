@@ -1,5 +1,17 @@
+:root{
+  /* Paleta corporativa: azul, blanco, amarillo y plomo */
+  --brand-primary:#0f1e52;
+  --brand-primary-dark:#1f3b8d;
+  --brand-accent:#f5b301;
+  --brand-accent-dark:#d99c00;
+  --black:#1f2937; /* plomo oscuro */
+  --white:#ffffff;
+}
+
 body {
-  background: linear-gradient(to right, #4e54c8, #8f94fb);
+  background:
+    radial-gradient(900px 500px at 120% 120%, rgba(31,59,141,.35), transparent 60%),
+    linear-gradient(135deg, var(--black) 0%, #0b1430 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +40,7 @@ body {
 }
 
 h2 {
-  color: #1565c0;
+  color: var(--brand-primary-dark);
   font-weight: 600;
 }
 
@@ -37,14 +49,15 @@ p {
 }
 
 .btn-success {
-  background-color: #80a0cd;
+  background: linear-gradient(180deg, var(--brand-accent), var(--brand-accent-dark));
+  color: #111827;
   border: none;
   font-weight: bold;
-  transition: background-color 0.3s;
+  transition: filter 0.2s;
 }
 
 .btn-success:hover {
-  background-color: #218838;
+  filter: brightness(1.05);
 }
 
 @media (max-width: 576px) {
