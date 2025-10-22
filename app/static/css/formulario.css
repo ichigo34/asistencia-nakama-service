@@ -1,38 +1,54 @@
 :root{
-    /* Paleta corporativa */
-    --brand-primary:#1e2b5c; /* Azul corporativo oscuro */
-    --brand-primary-dark:#2d3e7f; /* Azul corporativo medio (hover) */
-    --brand-accent:#f59e0b; /* CTA dorado/naranja */
-    --brand-accent-dark:#ff9500;
+    /* Paleta high-tech (azul, amarillo, blanco y negro) */
+    --brand-primary:#0f1e52; /* azul profundo */
+    --brand-primary-dark:#1f3b8d; /* azul hover */
+    --brand-accent:#f5b301; /* amarillo CTA */
+    --brand-accent-dark:#d99c00;
 
+    --black:#070b15;
     --white:#ffffff;
     --gray-50:#f3f4f6;
     --gray-500:#6b7280;
 
     --success:#10b981;
     --danger:#ef4444;
-    --warning:#f59e0b;
+    --warning:#f5b301;
     --info:#3b82f6;
 }
 
 body {
-    background: var(--gray-50);
+    /* Fondo tecnológico: degradé oscuro + retícula sutil */
+    background:
+      radial-gradient(1200px 600px at -10% -20%, rgba(24,39,94,.55), transparent 60%),
+      radial-gradient(900px 500px at 120% 120%, rgba(31,59,141,.45), transparent 60%),
+      linear-gradient(135deg, var(--black) 0%, #0b1430 100%);
+    position: relative;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #0f172a;
+    color: #e5e7eb;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* retícula */
+body::before{
+    content:""; position: fixed; inset:0; pointer-events:none; opacity:.12;
+    background-image:
+      linear-gradient(transparent 95%, rgba(245,179,1,.55) 96%),
+      linear-gradient(90deg, transparent 95%, rgba(245,179,1,.55) 96%);
+    background-size: 22px 22px;
+}
+
 .card {
-    background-color: var(--white);
-    color: #1f2937;
-    border-radius: 14px;
-    border: 1px solid rgba(30,43,92,0.06);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    background: rgba(255,255,255,.92);
+    color: #0f172a;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    backdrop-filter: blur(8px) saturate(120%);
     animation: fadeIn 0.6s ease;
-    max-width: 360px;
+    max-width: 380px;
     margin: 16px auto;
 }
 
@@ -42,28 +58,32 @@ body {
 
 /* Encabezado estilo "chip" morado como en el diseño */
 .header-chip {
-    background-color: var(--brand-primary);
+    background: linear-gradient(180deg, var(--brand-primary), var(--brand-primary-dark));
     color: #fff;
     display: inline-block;
     padding: 10px 16px;
-    border-radius: 12px;
+    border-radius: 14px;
     font-weight: 800;
     font-size: 1.05rem;
-    letter-spacing: .2px;
-    box-shadow: 0 4px 10px rgba(30, 43, 92, 0.25);
+    letter-spacing: .3px;
+    box-shadow: 0 0 0 2px rgba(245,179,1,.35), 0 10px 24px rgba(0,0,0,.25);
+    text-transform: capitalize;
 }
 
 /* Botón amarillo ENTRAR */
 .btn-entrar {
-    background-color: var(--brand-accent);
+    background: linear-gradient(180deg, var(--brand-accent), var(--brand-accent-dark));
     border: none;
-    color: #ffffff;
-    font-weight: 700;
-    border-radius: 18px;
-    padding: 8px 18px;
-    font-size: .95rem;
+    color: #111827;
+    font-weight: 800;
+    border-radius: 22px;
+    padding: 10px 20px;
+    font-size: .98rem;
+    box-shadow: 0 8px 18px rgba(245,179,1,.35), 0 2px 0 rgba(0,0,0,.25) inset;
+    text-transform: uppercase;
+    letter-spacing: .3px;
 }
-.btn-entrar:hover { background-color: var(--brand-accent-dark); color: #ffffff; }
+.btn-entrar:hover { filter: brightness(1.05); color:#0f172a; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
@@ -71,8 +91,8 @@ body {
 }
 
 /* Controles compactos y con foco azul */
-.form-select, .form-control { height: 34px; padding: 4px 10px; font-size: .95rem; border-radius: 8px; }
-.form-select:focus, .form-control:focus { border-color: var(--info); box-shadow: 0 0 0 .2rem rgba(59,130,246,.18); }
+.form-select, .form-control { height: 36px; padding: 6px 12px; font-size: .96rem; border-radius: 10px; border-color:#cfd4da; }
+.form-select:focus, .form-control:focus { border-color: var(--brand-accent); box-shadow: 0 0 0 .2rem rgba(245,179,1,.25); background:#fff; color:#0f172a; }
 
 .select2-container--default .select2-selection--single { height: 34px; padding: 3px 10px; border-color: #cfd4da; border-radius: 8px; }
 .select2-container--default .select2-selection--single .select2-selection__arrow b{ border-color: #666 transparent transparent transparent; }
@@ -83,8 +103,8 @@ body {
 .success-card { border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,.15); }
 
 /* Botones y estados Bootstrap mapeados a la paleta */
-.btn-primary{ background-color: var(--brand-primary) !important; border-color: var(--brand-primary) !important; }
-.btn-primary:hover{ background-color: var(--brand-primary-dark) !important; border-color: var(--brand-primary-dark) !important; }
+.btn-primary{ background: linear-gradient(180deg, var(--brand-primary), var(--brand-primary-dark)) !important; border-color: var(--brand-primary-dark) !important; }
+.btn-primary:hover{ filter: brightness(1.05) !important; }
 .btn-success{ background-color: var(--success) !important; border-color: var(--success) !important; }
 .btn-danger{ background-color: var(--danger) !important; border-color: var(--danger) !important; }
 .btn-warning{ background-color: var(--warning) !important; border-color: var(--warning) !important; color:#111827 !important; }
