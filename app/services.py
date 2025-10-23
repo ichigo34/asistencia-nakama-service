@@ -41,6 +41,7 @@ class AsistenciaService:
     def validar_fingerprint_unico(empleado, fingerprint, fecha):
         """
         Valida que el fingerprint no haya sido usado por otro empleado en la fecha.
+        Si no se proporciona fingerprint (None o cadena vacía), no aplica la validación.
         
         Args:
             empleado: Instancia de Empleado
@@ -50,6 +51,9 @@ class AsistenciaService:
         Returns:
             bool: True si el fingerprint ya fue usado por otro empleado
         """
+        # Si no hay fingerprint, no bloquear el registro (flujo sin identificación de dispositivo)
+        if not fingerprint:
+            return False
         return RegistroAsistencia.objects.filter(
             ~Q(empleado=empleado),
             fingerprint=fingerprint,
@@ -152,6 +156,7 @@ class ReporteService:
     def calcular_horas_empleado(data):
         """
         Calcula las horas trabajadas, almuerzo, comisiones y permisos para un empleado.
+        Hace las búsquedas de tipos de asistencia de forma case-insensitive para evitar errores por variaciones de mayúsculas/minúsculas.
         
         Args:
             data: Datos del empleado para una fecha específica
@@ -163,15 +168,31 @@ class ReporteService:
         comision = timedelta()
         permiso = timedelta()
         trabajadas = timedelta()
-        
-        if "Inicio almuerzo" in data and "Fin almuerzo" in data:
-            almuerzo = ReporteService.delta(data["Inicio almuerzo"][0], data["Fin almuerzo"][0])
-        if "Salida por comisión" in data and "Entrada por comisión" in data:
-            comision = ReporteService.delta(data["Salida por comisión"][0], data["Entrada por comisión"][0])
-        if "Salida por otros" in data and "Entrada por otros" in data:
-            permiso = ReporteService.delta(data["Salida por otros"][0], data["Entrada por otros"][0])
-        if "Entrada" in data and "Salida" in data:
-            total_dia = ReporteService.delta(data["Entrada"][0], data["Salida"][0])
+
+        def get_times(key: str):
+            k = key.lower()
+            for existente, tiempos in data.items():
+                if str(existente).lower() == k:
+                    return tiempos
+            return []
+
+        ini_almuerzo = get_times("Inicio Almuerzo")
+        fin_almuerzo = get_times("Fin Almuerzo")
+        sal_comision = get_times("Salida por comisión")
+        ent_comision = get_times("Entrada por comisión")
+        sal_otros = get_times("Salida por otros")
+        ent_otros = get_times("Entrada por otros")
+        entrada = get_times("Entrada")
+        salida = get_times("Salida")
+
+        if ini_almuerzo and fin_almuerzo:
+            almuerzo = ReporteService.delta(ini_almuerzo[0], fin_almuerzo[0])
+        if sal_comision and ent_comision:
+            comision = ReporteService.delta(sal_comision[0], ent_comision[0])
+        if sal_otros and ent_otros:
+            permiso = ReporteService.delta(sal_otros[0], ent_otros[0])
+        if entrada and salida:
+            total_dia = ReporteService.delta(entrada[0], salida[0])
             trabajadas = total_dia - almuerzo - permiso
         
         return {
