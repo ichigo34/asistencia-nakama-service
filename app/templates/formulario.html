@@ -107,10 +107,11 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      if (!fingerprintListo || !fingerprintInput.value) {
-        alert("Fingerprint aún no cargado. Espera un momento...");
-        return;
-      }
+      // Si no hay fingerprint, continuar sin bloquear; el backend lo maneja como opcional
+      // if (!fingerprintListo || !fingerprintInput.value) {
+      //   alert("Fingerprint aún no cargado. Espera un momento...");
+      //   return;
+      // }
 
       if (!navigator.geolocation) {
         alert("Tu navegador no soporta geolocalización.");

@@ -8,13 +8,23 @@ from collections import defaultdict
 from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Q
-from .models import Empleado, TipoAsistencia, RegistroAsistencia
+from .models import Empleado, TipoAsistencia, RegistroAsistencia, DispositivoEmpleado
 
 
 class AsistenciaService:
     """Servicio para manejar la lógica de negocio de asistencia."""
     
     TIPOS_UNICOS = ['Entrada', 'Inicio Almuerzo', 'Fin Almuerzo', 'Salida']
+
+    @staticmethod
+    def _normalize_fingerprint(fingerprint):
+        """Normaliza el fingerprint recibido desde el frontend."""
+        if fingerprint is None:
+            return None
+        s = str(fingerprint).strip()
+        if not s or s.lower() in ("null", "none", "undefined"):
+            return None
+        return s
     
     @staticmethod
     def validar_registro_duplicado(empleado, tipo_asistencia, fecha):
@@ -40,25 +50,16 @@ class AsistenciaService:
     @staticmethod
     def validar_fingerprint_unico(empleado, fingerprint, fecha):
         """
-        Valida que el fingerprint no haya sido usado por otro empleado en la fecha.
-        Si no se proporciona fingerprint (None o cadena vacía), no aplica la validación.
-        
-        Args:
-            empleado: Instancia de Empleado
-            fingerprint: ID del dispositivo
-            fecha: Fecha a validar
-            
-        Returns:
-            bool: True si el fingerprint ya fue usado por otro empleado
+        Bloquea solo si el fingerprint está VINCULADO a otro empleado distinto.
+        Si no se proporciona fingerprint (None/cadena vacía/null/undefined), no aplica la validación.
         """
-        # Si no hay fingerprint, no bloquear el registro (flujo sin identificación de dispositivo)
-        if not fingerprint:
-            return False
-        return RegistroAsistencia.objects.filter(
-            ~Q(empleado=empleado),
-            fingerprint=fingerprint,
-            fecha_registro=fecha
-        ).exists()
+        fp = AsistenciaService._normalize_fingerprint(fingerprint)
+        if not fp:
+            return False  # no bloquear si no hay fingerprint válido
+        vinculo = DispositivoEmpleado.objects.select_related('empleado').filter(fingerprint=fp).first()
+        if vinculo and vinculo.empleado_id != empleado.id_empleado:
+            return True  # fingerprint pertenece a otro empleado
+        return False
     
     @staticmethod
     def crear_registro_asistencia(empleado_id, tipo_id, descripcion, fingerprint):
@@ -81,14 +82,17 @@ class AsistenciaService:
             now = timezone.localtime()
             fecha = now.date()
             hora = now.time()
+
+            # Normalizar fingerprint recibido
+            fingerprint = AsistenciaService._normalize_fingerprint(fingerprint)
             
             # Validar registro duplicado
             if AsistenciaService.validar_registro_duplicado(empleado, tipo_asistencia, fecha):
                 return False, f'Ya registraste "{tipo_asistencia.nombre_asistencia}" hoy.', None
             
-            # Validar fingerprint único
+            # Validar fingerprint vinculado a otra persona
             if AsistenciaService.validar_fingerprint_unico(empleado, fingerprint, fecha):
-                return False, "Este dispositivo ya ha sido usado para registrar la asistencia de otro empleado hoy.", None
+                return False, "Este dispositivo está vinculado a otro empleado.", None
             
             # Crear registro
             registro = RegistroAsistencia.objects.create(

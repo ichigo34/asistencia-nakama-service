@@ -102,6 +102,14 @@
         e.preventDefault();
         const empleadoId = document.getElementById('empleado_id').value;
         if (!empleadoId) return;
+
+        // Si no tenemos fingerprint (bloqueadores, red, etc.), continuar sin vincular
+        if (!visitorId) {
+          setEstado('Continuando sin vincular dispositivo...', 'secondary');
+          window.location.href = `/auto/empleado/${empleadoId}/`;
+          return;
+        }
+
         try {
           const res = await fetch('{% url "api_vincular_fingerprint" %}', {
             method: 'POST',
@@ -116,7 +124,8 @@
             setEstado('No se pudo vincular: ' + (data.error || 'Error desconocido'), 'danger');
           }
         } catch (e) {
-          setEstado('Error de conexión al vincular.', 'danger');
+          // Si la API falla, continuar al formulario sin vincular
+          window.location.href = `/auto/empleado/${empleadoId}/`;
         }
       });
     });
