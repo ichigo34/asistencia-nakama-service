@@ -53,9 +53,11 @@ body.home{ background:#ffffff !important; }
 .card-plain{ background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 24px rgba(0,0,0,.06); }
 .text-brand{ color:#6366f1; }
 .logo-chip{ width:56px; height:56px; display:flex; align-items:center; justify-content:center; border-radius:16px; font-weight:800; color:#ffffff; background: linear-gradient(135deg, #4f46e5, #9333ea); box-shadow:0 8px 18px rgba(99,102,241,.35); font-size:1.5rem; }
-.title-line{ width:140px; height:4px; background: linear-gradient(90deg, #6366f1, #9333ea); border-radius:999px; }
-.info-card{ background:#eef2ff; border:1px solid #e5e7eb; border-radius:14px; padding:14px 16px; max-width:520px; }
-.btn-register{ width:100%; padding:14px 20px; font-weight:800; text-transform:uppercase; color:#ffffff; border:none; border-radius:14px; background: linear-gradient(135deg, #6366f1, #9333ea); box-shadow:0 8px 18px rgba(99,102,241,.35); transition: transform .15s ease, filter .15s ease, box-shadow .15s ease; }
+.brand-title{ background: linear-gradient(90deg, #6366f1, #9333ea); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:800; letter-spacing:.4px; }
+.title-underline{ width:100px; height:4px; background: linear-gradient(90deg, #6366f1, #9333ea); border-radius:999px; }
+.info-card{ background:#eef2ff; border:1px solid #e5e7eb; border-radius:16px; padding:16px 18px; max-width:520px; box-shadow:0 6px 14px rgba(0,0,0,.05); }
+.info-card.info-soft{ background: linear-gradient(180deg, #eef2ff, #f5f3ff); }
+.btn-register{ width:100%; padding:16px 22px; font-weight:800; text-transform:uppercase; color:#ffffff; border:none; border-radius:16px; background: linear-gradient(135deg, #6366f1, #9333ea); box-shadow:0 10px 22px rgba(147,51,234,.25); transition: transform .15s ease, filter .15s ease, box-shadow .15s ease; }
 .btn-register:hover{ filter:brightness(.98); transform: scale(1.02); box-shadow:0 12px 26px rgba(147,51,234,.32); color:#fff; }
 .btn-register.loading{ pointer-events:none; opacity:.9; }
 .btn-register.success{ background: linear-gradient(135deg, #22c55e, #16a34a); }

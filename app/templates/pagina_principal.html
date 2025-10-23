@@ -16,18 +16,17 @@
         <div class="card card-plain p-4 p-md-5 text-center">
           <!-- Header -->
           <div class="d-flex flex-column align-items-center mb-3">
-            <div class="logo-chip mb-2" aria-label="Nakama">N</div>
-            <h6 class="mb-2 fw-bold text-brand">NAKAMA • Asistencia</h6>
-            <div class="title-line"></div>
+            <h1 class="brand-title mb-1">NAKAMA • Asistencia</h1>
+            <div class="title-underline"></div>
           </div>
           
           <!-- Contenido -->
           <div class="mb-2">
             <h2 class="fw-bold mb-2 text-dark">Sistema de asistencia</h2>
-            <p class="text-secondary mb-3">📱 Usa tu celular para registrarte</p>
+            <p class="text-secondary mb-3"><i class="bi bi-phone me-1" aria-hidden="true"></i> Usa tu celular para registrarte</p>
           </div>
           
-          <div class="info-card mx-auto mb-4">
+          <div class="info-card info-soft mx-auto mb-4">
             <p class="mb-1 text-dark">Primera vez te vinculamos por dispositivo.</p>
             <p class="mb-0 text-brand fw-semibold">Luego te reconocemos automáticamente.</p>
           </div>
@@ -35,7 +34,7 @@
           <!-- Botón -->
           <div class="d-grid mb-3">
             <a id="btn-registrarse" href="{% url 'identificar_dispositivo' %}" class="btn btn-register">
-              📱 REGISTRARSE
+              <i class="bi bi-phone me-2" aria-hidden="true"></i> REGISTRARSE
             </a>
           </div>
           
@@ -45,7 +44,6 @@
             <span class="dot purple"></span>
             <span class="dot pink"></span>
           </div>
-        </div>
       </div>
     </div>
   </div>
