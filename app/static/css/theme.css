@@ -48,24 +48,22 @@ body::before{
 }
 @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
 
-/* Landing hero con fondo y orbes */
-.landing-hero{
-  position: relative; min-height: 85vh; display:flex; align-items:flex-start; justify-content:center; padding-top: 40px;
-  background: url('../img/fondo-oficina.jpg') center/cover no-repeat fixed;
-}
-.landing-hero .overlay{
-  position:absolute; inset:0; background: radial-gradient(circle at 20% 10%, rgba(15,30,82,.65), transparent 40%),
-                                    radial-gradient(circle at 80% 90%, rgba(31,59,141,.55), transparent 40%),
-                                    rgba(0,0,0,.35);
-}
-.landing-hero .orbs{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
-.orb{ position:absolute; width:240px; height:240px; border-radius:50%; filter: blur(18px); opacity:.35; }
-.o1{ background: #00b4ff; top:10%; left: -60px; animation: float 14s ease-in-out infinite; }
-.o2{ background: #f5b301; bottom:15%; right: -60px; animation: float2 16s ease-in-out infinite; }
-.o3{ background: #3b82f6; top:40%; right:25%; animation: float3 18s ease-in-out infinite; }
-@keyframes float{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(28px) } }
-@keyframes float2{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-24px) } }
-@keyframes float3{ 0%,100%{ transform: translate(0,0) } 50%{ transform: translate(-18px, 18px) } }
+/* Overrides específicos para portada minimalista */
+body.home{ background:#ffffff !important; }
+.card-plain{ background:#ffffff; border:1px solid #e5e7eb; border-radius:24px; box-shadow:0 10px 24px rgba(0,0,0,.06); }
+.text-brand{ color:#6366f1; }
+.logo-chip{ width:56px; height:56px; display:flex; align-items:center; justify-content:center; border-radius:16px; font-weight:800; color:#ffffff; background: linear-gradient(135deg, #4f46e5, #9333ea); box-shadow:0 8px 18px rgba(99,102,241,.35); font-size:1.5rem; }
+.title-line{ width:140px; height:4px; background: linear-gradient(90deg, #6366f1, #9333ea); border-radius:999px; }
+.info-card{ background:#eef2ff; border:1px solid #e5e7eb; border-radius:14px; padding:14px 16px; max-width:520px; }
+.btn-register{ width:100%; padding:14px 20px; font-weight:800; text-transform:uppercase; color:#ffffff; border:none; border-radius:14px; background: linear-gradient(135deg, #6366f1, #9333ea); box-shadow:0 8px 18px rgba(99,102,241,.35); transition: transform .15s ease, filter .15s ease, box-shadow .15s ease; }
+.btn-register:hover{ filter:brightness(.98); transform: scale(1.02); box-shadow:0 12px 26px rgba(147,51,234,.32); color:#fff; }
+.btn-register.loading{ pointer-events:none; opacity:.9; }
+.btn-register.success{ background: linear-gradient(135deg, #22c55e, #16a34a); }
+.dots{ display:flex; justify-content:center; gap:10px; }
+.dot{ width:8px; height:8px; border-radius:999px; display:inline-block; }
+.dot.indigo{ background:#6366f1; }
+.dot.purple{ background:#9333ea; }
+.dot.pink{ background:#ec4899; }
 
 /* Hero con borde gradiente y líneas de brillo */
 .hero-card{ position: relative; overflow: hidden; }

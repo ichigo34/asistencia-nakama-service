@@ -8,39 +8,67 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/theme.css' %}">
-    <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
 </head>
-<body>
-<section class="landing-hero" style="background-image:url('{% static 'img/fondo-oficina.jpg' %}');">
-    <div class="overlay"></div>
-    <div class="orbs">
-      <span class="orb o1"></span>
-      <span class="orb o2"></span>
-      <span class="orb o3"></span>
-    </div>
-
-    <div class="container px-3" style="position:relative; z-index:2;">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-9 col-lg-7">
-          <div class="card hero-card p-4 mt-5 text-center" style="box-shadow: 0 20px 45px rgba(0,0,0,.35);">
-            <span class="glow-line gl1"></span>
-            <span class="glow-line gl2"></span>
-            <div class="brand-bar"><span class="brand-pill"><img src="{% static 'img/logo-nakama.svg' %}" alt="Nakama">NAKAMA • Asistencia</span></div>
-            <div class="card-body pt-0">
-              <h2 class="fw-bold mb-2 title-gradient">Sistema de asistencia</h2>
-              <div class="mb-3">
-                <span class="qr-badge"><i class="bi bi-phone"></i> Usa tu celular para registrarte</span>
-              </div>
-              <p class="helper-text mb-4">Primera vez te vinculamos por dispositivo. Luego te reconocemos automáticamente.</p>
-              <div class="d-grid gap-2">
-                <a href="{% url 'identificar_dispositivo' %}" class="btn btn-cta"><i class="bi bi-qr-code-scan me-2"></i>REGISTRARSE</a>
-              </div>
-            </div>
+<body class="home">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 col-xxl-6">
+        <div class="card card-plain p-4 p-md-5 text-center">
+          <!-- Header -->
+          <div class="d-flex flex-column align-items-center mb-3">
+            <div class="logo-chip mb-2" aria-label="Nakama">N</div>
+            <h6 class="mb-2 fw-bold text-brand">NAKAMA • Asistencia</h6>
+            <div class="title-line"></div>
+          </div>
+          
+          <!-- Contenido -->
+          <div class="mb-2">
+            <h2 class="fw-bold mb-2 text-dark">Sistema de asistencia</h2>
+            <p class="text-secondary mb-3">📱 Usa tu celular para registrarte</p>
+          </div>
+          
+          <div class="info-card mx-auto mb-4">
+            <p class="mb-1 text-dark">Primera vez te vinculamos por dispositivo.</p>
+            <p class="mb-0 text-brand fw-semibold">Luego te reconocemos automáticamente.</p>
+          </div>
+          
+          <!-- Botón -->
+          <div class="d-grid mb-3">
+            <a id="btn-registrarse" href="{% url 'identificar_dispositivo' %}" class="btn btn-register">
+              📱 REGISTRARSE
+            </a>
+          </div>
+          
+          <!-- Puntos decorativos -->
+          <div class="dots">
+            <span class="dot indigo"></span>
+            <span class="dot purple"></span>
+            <span class="dot pink"></span>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+
+  <script>
+    // Estados interactivos del botón: loading y success sin alterar la funcionalidad
+    const btn = document.getElementById('btn-registrarse');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = btn.getAttribute('href');
+        if (btn.classList.contains('loading')) return;
+        btn.classList.add('loading');
+        btn.textContent = '⌛ CARGANDO...';
+        setTimeout(() => {
+          btn.classList.remove('loading');
+          btn.classList.add('success');
+          btn.textContent = '✔ LISTO';
+          setTimeout(() => { window.location.href = url; }, 300);
+        }, 600);
+      });
+    }
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
