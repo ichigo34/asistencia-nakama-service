@@ -45,6 +45,25 @@ body::before{
 }
 @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
 
+/* Landing hero con fondo y orbes */
+.landing-hero{
+  position: relative; min-height: 85vh; display:flex; align-items:flex-start; justify-content:center; padding-top: 40px;
+  background: url('../img/fondo-oficina.jpg') center/cover no-repeat fixed;
+}
+.landing-hero .overlay{
+  position:absolute; inset:0; background: radial-gradient(circle at 20% 10%, rgba(15,30,82,.65), transparent 40%),
+                                    radial-gradient(circle at 80% 90%, rgba(31,59,141,.55), transparent 40%),
+                                    rgba(0,0,0,.35);
+}
+.landing-hero .orbs{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+.orb{ position:absolute; width:240px; height:240px; border-radius:50%; filter: blur(18px); opacity:.35; }
+.o1{ background: #00b4ff; top:10%; left: -60px; animation: float 14s ease-in-out infinite; }
+.o2{ background: #f5b301; bottom:15%; right: -60px; animation: float2 16s ease-in-out infinite; }
+.o3{ background: #3b82f6; top:40%; right:25%; animation: float3 18s ease-in-out infinite; }
+@keyframes float{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(28px) } }
+@keyframes float2{ 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-24px) } }
+@keyframes float3{ 0%,100%{ transform: translate(0,0) } 50%{ transform: translate(-18px, 18px) } }
+
 /* Hero con borde gradiente y líneas de brillo */
 .hero-card{ position: relative; overflow: hidden; }
 .hero-card::after{

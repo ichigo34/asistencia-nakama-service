@@ -11,28 +11,37 @@
     <link rel="stylesheet" href="{% static 'css/formulario.css' %}">
 </head>
 <body>
-    <div class="container px-3">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-9 col-lg-7">
-<div class="card hero-card p-4 mt-5 text-center">
-                    <span class="glow-line gl1"></span>
-                    <span class="glow-line gl2"></span>
-<div class="brand-bar"><span class="brand-pill"><img src="{% static 'img/logo-nakama.svg' %}" alt="Nakama">NAKAMA • Asistencia</span></div>
-                    <div class="card-body pt-0">
-                        <h4 class="fw-bold mb-2 title-gradient">Sistema de asistencia</h4>
-                        <div class="mb-3">
-                            <span class="qr-badge"><i class="bi bi-phone"></i> Usa tu celular para registrarte</span>
-                        </div>
-                        <p class="helper-text mb-4">Primera vez te vinculamos por dispositivo. Luego te reconocemos automáticamente.</p>
-                        <div class="d-grid gap-2">
-<a href="{% url 'identificar_dispositivo' %}" class="btn btn-cta"><i class="bi bi-qr-code-scan me-2"></i>REGISTRARSE</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <section class="landing-hero">
+    <div class="overlay"></div>
+    <div class="orbs">
+      <span class="orb o1"></span>
+      <span class="orb o2"></span>
+      <span class="orb o3"></span>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="container px-3" style="position:relative; z-index:2;">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-9 col-lg-7">
+          <div class="card hero-card p-4 mt-5 text-center" style="box-shadow: 0 20px 45px rgba(0,0,0,.35);">
+            <span class="glow-line gl1"></span>
+            <span class="glow-line gl2"></span>
+            <div class="brand-bar"><span class="brand-pill"><img src="{% static 'img/logo-nakama.svg' %}" alt="Nakama">NAKAMA • Asistencia</span></div>
+            <div class="card-body pt-0">
+              <h2 class="fw-bold mb-2 title-gradient">Sistema de asistencia</h2>
+              <div class="mb-3">
+                <span class="qr-badge"><i class="bi bi-phone"></i> Usa tu celular para registrarte</span>
+              </div>
+              <p class="helper-text mb-4">Primera vez te vinculamos por dispositivo. Luego te reconocemos automáticamente.</p>
+              <div class="d-grid gap-2">
+                <a href="{% url 'identificar_dispositivo' %}" class="btn btn-cta"><i class="bi bi-qr-code-scan me-2"></i>REGISTRARSE</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
