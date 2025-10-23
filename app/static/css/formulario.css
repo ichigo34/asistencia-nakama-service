@@ -23,7 +23,7 @@ body {
       radial-gradient(900px 500px at 120% 120%, rgba(31,59,141,.45), transparent 60%),
       linear-gradient(135deg, var(--black) 0%, #0b1430 100%);
     position: relative;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     color: #e5e7eb;
     min-height: 100vh;
     display: flex;
@@ -110,20 +110,20 @@ body::before{
     text-transform: capitalize;
 }
 
-/* Botón amarillo ENTRAR */
+/* Botón ENTRAR en verde corporativo */
 .btn-entrar {
-    background: linear-gradient(180deg, var(--brand-accent), var(--brand-accent-dark));
+    background: linear-gradient(180deg, var(--green-500), var(--green-600));
     border: none;
-    color: #111827;
+    color: #f0fdf4;
     font-weight: 800;
     border-radius: 22px;
     padding: 10px 20px;
     font-size: .98rem;
-    box-shadow: 0 8px 18px rgba(245,179,1,.35), 0 2px 0 rgba(0,0,0,.25) inset;
+    box-shadow: 0 8px 18px rgba(34,197,94,.35), 0 2px 0 rgba(0,0,0,.25) inset;
     text-transform: uppercase;
     letter-spacing: .3px;
 }
-.btn-entrar:hover { filter: brightness(1.05); color:#0f172a; }
+.btn-entrar:hover { filter: brightness(1.05); color:#ffffff; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }

@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 :root{
   /* Paleta corporativa: azul, blanco, amarillo y plomo (gris) */
   --brand-primary:#0f1e52; /* azul profundo */
   --brand-primary-dark:#1f3b8d; /* azul hover */
-  --brand-accent:#f5b301; /* amarillo CTA */
+  --brand-accent:#f5b301; /* amarillo detalle */
   --brand-accent-dark:#d99c00;
+  --green-500:#22c55e; /* verde CTA */
+  --green-600:#16a34a;
 
   --black:#1f2937; /* plomo oscuro de fondo */
   --white:#ffffff;
@@ -20,7 +23,7 @@ body {
     radial-gradient(900px 500px at 120% 120%, rgba(31,59,141,.45), transparent 60%),
     linear-gradient(135deg, var(--black) 0%, #0b1430 100%);
   position: relative;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: #0f172a;
   min-height: 100vh;
 }
@@ -100,11 +103,11 @@ body::before{
 
 /* Botones */
 .btn-cta, .btn-entrar{
-  background: linear-gradient(180deg, var(--brand-accent), var(--brand-accent-dark));
-  color:#0f172a; font-weight:800; border:none; border-radius: 28px; padding:12px 20px;
-  box-shadow: 0 10px 24px rgba(245,179,1,.35); text-transform:uppercase; letter-spacing:.3px;
+  background: linear-gradient(180deg, var(--green-500), var(--green-600));
+  color:#f0fdf4; font-weight:800; border:none; border-radius: 28px; padding:12px 20px;
+  box-shadow: 0 10px 24px rgba(34,197,94,.35); text-transform:uppercase; letter-spacing:.3px;
 }
-.btn-cta:hover, .btn-entrar:hover{ filter:brightness(1.06); color:#0b1324; }
+.btn-cta:hover, .btn-entrar:hover{ filter:brightness(1.06); color:#ffffff; }
 
 /* Mapear Bootstrap a paleta */
 .btn-primary{ background: linear-gradient(180deg, var(--brand-primary), var(--brand-primary-dark)) !important; border-color: var(--brand-primary-dark) !important; }
