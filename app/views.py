@@ -87,17 +87,18 @@ def exportar_resumen_excel(request):
         cell.fill = header_fill
         cell.border = thin_border
 
-    # Crear tabla
-    tabla = Table(
-        displayName="ResumenAsistencia",
-        ref=f"A1:F{ws.max_row}"
-    )
-    style = TableStyleInfo(
-        name="TableStyleMedium9", showFirstColumn=False,
-        showLastColumn=False, showRowStripes=True, showColumnStripes=False
-    )
-    tabla.tableStyleInfo = style
-    ws.add_table(tabla)
+    # Crear tabla solo si hay datos (al menos 1 fila de datos)
+    if ws.max_row > 1:
+        tabla = Table(
+            displayName="ResumenAsistencia",
+            ref=f"A1:F{ws.max_row}"
+        )
+        style = TableStyleInfo(
+            name="TableStyleMedium9", showFirstColumn=False,
+            showLastColumn=False, showRowStripes=True, showColumnStripes=False
+        )
+        tabla.tableStyleInfo = style
+        ws.add_table(tabla)
 
     # Enviar archivo
     response = HttpResponse(
@@ -154,17 +155,18 @@ def exportar_asistencia_excel(request):
         cell.fill = header_fill
         cell.border = thin_border
 
-    # Tabla
-    tabla = Table(
-        displayName="RegistroAsistencia",
-        ref=f"A1:F{ws.max_row}"
-    )
-    style = TableStyleInfo(
-        name="TableStyleMedium9", showFirstColumn=False,
-        showLastColumn=False, showRowStripes=True, showColumnStripes=False
-    )
-    tabla.tableStyleInfo = style
-    ws.add_table(tabla)
+    # Tabla solo si hay datos (al menos 1 fila de datos)
+    if ws.max_row > 1:
+        tabla = Table(
+            displayName="RegistroAsistencia",
+            ref=f"A1:F{ws.max_row}"
+        )
+        style = TableStyleInfo(
+            name="TableStyleMedium9", showFirstColumn=False,
+            showLastColumn=False, showRowStripes=True, showColumnStripes=False
+        )
+        tabla.tableStyleInfo = style
+        ws.add_table(tabla)
 
     # Respuesta
     response = HttpResponse(
