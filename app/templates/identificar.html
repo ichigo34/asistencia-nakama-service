@@ -24,6 +24,7 @@
 
             <!-- Pantalla 1: primera vez, elegir empleado y ENTRAR -->
             <form id="form-vincular" class="text-start" style="display: none;">
+              {% csrf_token %}
               <div class="mb-3">
                 <label class="form-label">Empleado:</label>
                 <select name="empleado_id" id="empleado_id" class="form-select" required>
@@ -51,6 +52,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
   <script>
     let visitorId = null;
+    // Obtener token CSRF desde cookie
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
 
     function setEstado(msg, tipo = 'muted') {
       const el = document.getElementById('estado');
@@ -70,7 +78,10 @@
 
         const res = await fetch('{% url "api_identificar_por_fingerprint" %}', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken') || ''
+          },
           body: JSON.stringify({ fingerprint: visitorId })
         });
         const data = await res.json();
@@ -113,7 +124,10 @@
         try {
           const res = await fetch('{% url "api_vincular_fingerprint" %}', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken') || ''
+            },
             body: JSON.stringify({ empleado_id: empleadoId, fingerprint: visitorId })
           });
           const data = await res.json();

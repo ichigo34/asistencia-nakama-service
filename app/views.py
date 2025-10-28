@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from .models import Empleado, TipoAsistencia, RegistroAsistencia, DispositivoEmpleado
 from .services import AsistenciaService, ReporteService
@@ -157,7 +157,7 @@ def exportar_asistencia_excel(request):
     # Tabla
     tabla = Table(
         displayName="RegistroAsistencia",
-        ref=f"A1:F{ws.max_row + 1}"
+        ref=f"A1:F{ws.max_row}"
     )
     style = TableStyleInfo(
         name="TableStyleMedium9", showFirstColumn=False,
@@ -190,6 +190,7 @@ def escanear_qr(request):
     return render(request, 'escanear_qr.html')
 
 
+@ensure_csrf_cookie
 def identificar_dispositivo(request):
     """
     Página de QR general: identifica por fingerprint. Si ya está vinculado, redirige directo al formulario.
@@ -288,48 +289,43 @@ def registrar_asistencia_auto(request, empleado_id):
     })
 
 
-@csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 def api_buscar_empleado_qr(request):
     """
     API para buscar empleado por código QR.
     """
+    # Responder preflight/local OPTIONS
+    if request.method == 'OPTIONS':
+        return JsonResponse({'success': True})
     try:
         data = json.loads(request.body)
         codigo_qr = data.get('codigo_qr')
         
         if not codigo_qr:
-            return JsonResponse({
-                'success': False,
-                'error': 'Código QR requerido'
-            })
+            return JsonResponse({'success': False, 'error': 'Código QR requerido'}, status=400)
         
         resultado = QRService.buscar_empleado_por_qr(codigo_qr)
-        return JsonResponse(resultado)
+        status_code = 200 if resultado.get('success') else 404
+        return JsonResponse(resultado, status=status_code)
         
     except json.JSONDecodeError:
-        return JsonResponse({
-            'success': False,
-            'error': 'Datos JSON inválidos'
-        })
+        return JsonResponse({'success': False, 'error': 'Datos JSON inválidos'}, status=400)
     except Exception as e:
-        return JsonResponse({
-            'success': False,
-            'error': f'Error del servidor: {str(e)}'
-        })
+        return JsonResponse({'success': False, 'error': f'Error del servidor: {str(e)}'}, status=500)
 
 
-@csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 def api_identificar_por_fingerprint(request):
     """
     Identifica empleado por fingerprint del dispositivo.
     """
+    if request.method == 'OPTIONS':
+        return JsonResponse({'success': True})
     try:
         data = json.loads(request.body)
         fingerprint = data.get('fingerprint')
         if not fingerprint:
-            return JsonResponse({'success': False, 'error': 'Fingerprint requerido'})
+            return JsonResponse({'success': False, 'error': 'Fingerprint requerido'}, status=400)
         empleado = DispositivoEmpleado.obtener_empleado_por_fingerprint(fingerprint)
         if empleado:
             return JsonResponse({
@@ -343,36 +339,40 @@ def api_identificar_por_fingerprint(request):
                 }
             })
         else:
-            return JsonResponse({'success': False, 'error': 'Dispositivo no vinculado a un empleado'})
+            return JsonResponse({'success': False, 'error': 'Dispositivo no vinculado a un empleado'}, status=404)
     except json.JSONDecodeError:
-        return JsonResponse({'success': False, 'error': 'Datos JSON inválidos'})
+        return JsonResponse({'success': False, 'error': 'Datos JSON inválidos'}, status=400)
     except Exception as e:
-        return JsonResponse({'success': False, 'error': f'Error del servidor: {str(e)}'})
+        return JsonResponse({'success': False, 'error': f'Error del servidor: {str(e)}'}, status=500)
 
 
-@csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 def api_vincular_fingerprint(request):
     """
     Vincula el fingerprint al empleado seleccionado (primera vez).
     """
+    if request.method == 'OPTIONS':
+        return JsonResponse({'success': True})
     try:
         data = json.loads(request.body)
         empleado_id = data.get('empleado_id')
         fingerprint = data.get('fingerprint')
         if not empleado_id or not fingerprint:
-            return JsonResponse({'success': False, 'error': 'Empleado y fingerprint requeridos'})
+            return JsonResponse({'success': False, 'error': 'Empleado y fingerprint requeridos'}, status=400)
         empleado = Empleado.objects.get(id_empleado=empleado_id)
-        # Evitar duplicados de fingerprint
+        # Bloquear reasignación: si ya existe y pertenece a otro empleado, rechazar
+        existente = DispositivoEmpleado.objects.select_related('empleado').filter(fingerprint=fingerprint).first()
+        if existente and existente.empleado_id != empleado.id_empleado:
+            return JsonResponse({'success': False, 'error': 'Fingerprint ya vinculado a otro empleado'}, status=409)
         DispositivoEmpleado.objects.update_or_create(
             fingerprint=fingerprint,
             defaults={'empleado': empleado}
         )
-        return JsonResponse({'success': True, 'empleado_id': empleado.id_empleado})
+        return JsonResponse({'success': True, 'empleado_id': empleado.id_empleado}, status=201)
     except Empleado.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'Empleado no encontrado'})
+        return JsonResponse({'success': False, 'error': 'Empleado no encontrado'}, status=404)
     except Exception as e:
-        return JsonResponse({'success': False, 'error': f'Error del servidor: {str(e)}'})
+        return JsonResponse({'success': False, 'error': f'Error del servidor: {str(e)}'}, status=500)
 
 
 def registrar_asistencia(request):
