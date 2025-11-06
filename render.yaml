@@ -5,12 +5,12 @@ services:
     plan: free
     autoDeploy: true
     buildCommand: pip install -r requirements.txt
-startCommand: bash -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn control_asistencia.wsgi --bind 0.0.0.0:$PORT"
+    startCommand: bash -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn control_asistencia.wsgi --bind 0.0.0.0:$PORT"
     envVars:
       - key: DATABASE_URL
-        sync: false  # Pega aquí tu cadena de conexión de Supabase en el panel de Render
+        sync: false
       - key: SECRET_KEY
-        sync: false  # Genera un secreto y colócalo en Render
+        sync: false
       - key: DEBUG
         value: "False"
       - key: DB_LIVE
