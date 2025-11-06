@@ -31,9 +31,10 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'dev-insecure-change-me')
 DEBUG = str(os.getenv('DEBUG', 'True')).lower() in ['1', 'true', 'yes', 'on']
 
 
-ALLOWED_HOSTS = ['.up.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.onrender.com', '.up.railway.app', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
     'https://*.up.railway.app',
     'http://127.0.0.1:8000',
     'https://127.0.0.1:8000',
