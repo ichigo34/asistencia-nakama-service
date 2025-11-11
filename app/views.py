@@ -371,10 +371,7 @@ def api_vincular_fingerprint(request):
         if not empleado_id or not fingerprint:
             return JsonResponse({'success': False, 'error': 'Empleado y fingerprint requeridos'}, status=400)
         empleado = Empleado.objects.get(id_empleado=empleado_id)
-        # Bloquear reasignación: si ya existe y pertenece a otro empleado, rechazar
-        existente = DispositivoEmpleado.objects.select_related('empleado').filter(fingerprint=fingerprint).first()
-        if existente and existente.empleado_id != empleado.id_empleado:
-            return JsonResponse({'success': False, 'error': 'Fingerprint ya vinculado a otro empleado'}, status=409)
+        # Reasignación permitida: si el fingerprint existe con otro empleado, se actualiza al elegido
         DispositivoEmpleado.objects.update_or_create(
             fingerprint=fingerprint,
             defaults={'empleado': empleado}
