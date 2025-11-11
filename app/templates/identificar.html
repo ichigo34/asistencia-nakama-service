@@ -20,10 +20,10 @@
           </div>
 <div class="brand-bar"><span class="brand-pill"><img src="{% static 'img/logo-nakama.svg' %}" alt="Nakama">NAKAMA • Asistencia</span></div>
           <div class="card-body pt-0">
-            <small id="estado" class="text-muted d-block mb-3">Detectando tu dispositivo...</small>
+<small id="estado" class="text-muted d-block mb-3">Selecciona tu nombre para continuar.</small>
 
-            <!-- Pantalla 1: primera vez, elegir empleado y ENTRAR -->
-            <form id="form-vincular" class="text-start" style="display: none;">
+            <!-- Selección de empleado obligatoria -->
+            <form id="form-vincular" class="text-start" style="display: block;">
               {% csrf_token %}
               <div class="mb-3">
                 <label class="form-label">Empleado:</label>
@@ -70,6 +70,7 @@
       document.getElementById('form-vincular').style.display = 'block';
     }
 
+    // Detección sin redirección automática: si ya está vinculado, ofrecer confirmación
     async function identificar() {
       try {
         const fp = await FingerprintJS.load();
@@ -78,24 +79,30 @@
 
         const res = await fetch('{% url "api_identificar_por_fingerprint" %}', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken') || ''
-          },
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') || '' },
           body: JSON.stringify({ fingerprint: visitorId })
         });
         const data = await res.json();
-        if (data.success) {
-          setEstado(`Bienvenido, ${data.empleado.nombre_completo}. Redirigiendo...`, 'success');
-          setTimeout(() => window.location.href = `/auto/empleado/${data.empleado.id}/`, 600);
-        } else {
-          setEstado('Selecciona tu nombre para vincular tu equipo y continuar.', 'secondary');
-          mostrarFormulario();
+        if (data.success && data.empleado && data.empleado.id) {
+          setEstado(`¿Eres ${data.empleado.nombre_completo}?`, 'info');
+          const cont = document.createElement('div');
+          cont.className = 'd-flex gap-2 justify-content-center mb-3';
+          const btnYes = document.createElement('a');
+          btnYes.className = 'btn btn-primary btn-sm';
+          btnYes.textContent = 'Sí, entrar';
+          btnYes.href = `/auto/empleado/${data.empleado.id}/`;
+          const btnNo = document.createElement('button');
+          btnNo.className = 'btn btn-outline-warning btn-sm';
+          btnNo.textContent = 'No soy yo';
+          btnNo.onclick = () => { document.getElementById('form-vincular').style.display = 'block'; cont.remove(); };
+          cont.appendChild(btnYes); cont.appendChild(btnNo);
+          document.getElementById('estado').after(cont);
+          // Mantener el formulario oculto hasta confirmar "No soy yo"
+          return;
         }
-      } catch (e) {
-        setEstado('No se pudo identificar el dispositivo. Selecciona tu nombre.', 'warning');
-        mostrarFormulario();
-      }
+      } catch(_) { /* ignorar */ }
+      setEstado('Selecciona tu nombre para continuar.', 'secondary');
+      mostrarFormulario();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
