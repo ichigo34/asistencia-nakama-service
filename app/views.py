@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
-from .models import Empleado, TipoAsistencia, RegistroAsistencia, DispositivoEmpleado
+from django.urls import reverse
+from .models import Empleado, TipoAsistencia, RegistroAsistencia, DispositivoEmpleado, ActividadProyecto
 from .services import AsistenciaService, ReporteService
 from .qr_service import QRService
 from .utils import obtener_fecha_hora_actual
@@ -215,6 +216,10 @@ def registrar_asistencia_qr(request, codigo_qr):
     
     tipos_evento = TipoAsistencia.objects.all()
 
+    # NUEVO FLUJO: antes de seleccionar el tipo de asistencia, ir a "Control de Actividades"
+    if request.method != 'POST':
+        return redirect('control_actividades', empleado_id=empleado.id_empleado)
+
     if request.method == 'POST':
         tipo_id = request.POST.get('tipo_evento')
         descripcion = request.POST.get('descripcion') or ''
@@ -257,6 +262,10 @@ def registrar_asistencia_auto(request, empleado_id):
     """
     empleado = get_object_or_404(Empleado, id_empleado=empleado_id)
     tipos_evento = TipoAsistencia.objects.all()
+
+    # Si llegamos aquí sin pasar por Control de Actividades, redirigir primero
+    if request.method == 'GET' and request.GET.get('from_control') != '1':
+        return redirect('control_actividades', empleado_id=empleado.id_empleado)
 
     if request.method == 'POST':
         tipo_id = request.POST.get('tipo_evento')
@@ -377,6 +386,24 @@ def api_vincular_fingerprint(request):
         return JsonResponse({'success': False, 'error': f'Error del servidor: {str(e)}'}, status=500)
 
 
+@require_http_methods(["POST", "OPTIONS"])
+def api_desvincular_fingerprint(request):
+    """
+    Desvincula el fingerprint del dispositivo actual para permitir seleccionar de nuevo.
+    """
+    if request.method == 'OPTIONS':
+        return JsonResponse({'success': True})
+    try:
+        data = json.loads(request.body)
+        fingerprint = data.get('fingerprint')
+        if not fingerprint:
+            return JsonResponse({'success': False, 'error': 'Fingerprint requerido'}, status=400)
+        borrados, detalle = DispositivoEmpleado.objects.filter(fingerprint=fingerprint).delete()
+        return JsonResponse({'success': True, 'deleted': borrados})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': f'Error del servidor: {str(e)}'}, status=500)
+
+
 def registrar_asistencia(request):
     """
     Vista tradicional para registrar la asistencia de un empleado.
@@ -419,3 +446,37 @@ def registrar_asistencia(request):
         'empleados': empleados,
         'tipos_evento': tipos_evento
     })
+
+
+def control_actividades(request, empleado_id):
+    """
+    Paso previo: pestaña "Control de Actividades" para registrar proyecto y actividad.
+    Tras registrar, redirige a la selección de Tipo de Asistencia.
+    """
+    empleado = get_object_or_404(Empleado, id_empleado=empleado_id)
+
+    if request.method == 'POST':
+        proyecto = (request.POST.get('proyecto') or '').strip()
+        actividad = (request.POST.get('actividad') or '').strip()
+
+        if not proyecto or not actividad:
+            messages.error(request, 'Debe completar Proyecto y Actividad.')
+            return render(request, 'control_actividades.html', {
+                'empleado': empleado,
+                'proyecto': proyecto,
+                'actividad': actividad,
+            })
+
+        # Guardar localmente
+        ActividadProyecto.objects.create(
+            empleado=empleado,
+            proyecto=proyecto,
+            actividad=actividad,
+        )
+        messages.success(request, 'Actividad registrada correctamente.')
+
+        # Redirigir a la pestaña de Tipo de Asistencia
+        url = f"{reverse('registrar_asistencia_auto', kwargs={'empleado_id': empleado.id_empleado})}?from_control=1"
+        return redirect(url)
+
+    return render(request, 'control_actividades.html', {'empleado': empleado})

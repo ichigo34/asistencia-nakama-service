@@ -164,3 +164,14 @@ class RegistroAsistencia(models.Model):
             empleado=empleado,
             fecha_registro=fecha
         ).select_related('tipo').order_by('hora_registro')
+
+class ActividadProyecto(models.Model):
+    """Registro local de proyecto y actividad declarada por el empleado antes de marcar asistencia."""
+    empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    proyecto = models.CharField(max_length=100)
+    actividad = models.CharField(max_length=100)
+    fecha = models.DateField(auto_now_add=True)
+    hora = models.TimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.empleado.nombre_completo} - {self.proyecto} / {self.actividad} - {self.fecha} {self.hora}"

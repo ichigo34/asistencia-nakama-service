@@ -18,16 +18,16 @@
       <div class="card hero-card success-card text-center p-4">
         <span class="glow-line gl1"></span>
         <span class="glow-line gl2"></span>
-        <div class="brand-bar mb-2"><span class="brand-pill"><img src="{% static 'img/logo-nakama.svg' %}" alt="Nakama">NAKAMA • Asistencia</span></div>
+        <div class="brand-bar mb-2"><span class="brand-pill"><img src="{% static 'img/logo-calidad.svg' %}" alt="Nakama">NAKAMA</span></div>
         <div class="card-body p-3">
           <h3 class="fw-bold title-gradient">¡Registro Exitoso!</h3>
-          <p class="mt-2 mb-4 text-muted">La asistencia fue registrada correctamente.</p>
+          <p class="mt-2 mb-4 text-muted">Registro guardado correctamente.</p>
           <div class="text-start mx-auto" style="max-width: 360px;">
             <p class="mb-2"><strong>Empleado:</strong> {{ empleado.nombres }} {{ empleado.apellidos }}</p>
             <p class="mb-2"><strong>Fecha:</strong> {{ fecha }}</p>
             <p class="mb-3"><strong>Hora:</strong> {{ hora }}</p>
           </div>
-          <a href="{% url 'identificar_dispositivo' %}" class="btn btn-cta">Registrar Otro</a>
+          <a href="{% url 'identificar_dispositivo' %}" class="btn btn-cta">LISTO</a>
         </div>
       </div>
     </div>

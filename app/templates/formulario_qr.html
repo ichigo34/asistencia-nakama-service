@@ -16,28 +16,27 @@
   <div class="container px-3">
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-7 col-xl-6">
-        <div class="card p-4 text-center">
-          <div class="mb-3">
-            <span class="header-chip">Registro de asistencia</span>
-          </div>
-<div class="brand-bar"><span class="brand-pill"><img src="{% static 'img/logo-nakama.svg' %}" alt="Nakama">NAKAMA • Asistencia</span></div>
+<div class="card p-4 text-center">
+<div class="brand-bar"><span class="brand-pill"><img src="{% static 'img/logo-calidad.svg' %}" alt="Nakama">NAKAMA</span></div>
           <div class="card-body pt-0">
-            <form method="POST" class="text-start">
+            <form method="POST" class="text-start needs-validation" novalidate>
               {% csrf_token %}
 
               <div class="mb-3">
-                <label class="form-label">Tipo de Asistencia:</label>
+                <label class="form-label" for="tipo_evento" data-bs-toggle="tooltip" title="Selecciona el evento a registrar">Tipo de Asistencia</label>
                 <select name="tipo_evento" id="tipo_evento" class="form-select" required>
                   <option value="">-- Selecciona un tipo --</option>
                   {% for tipo in tipos_evento %}
                     <option value="{{ tipo.id_tipo }}">{{ tipo.nombre_asistencia }}</option>
                   {% endfor %}
                 </select>
+                <div class="invalid-feedback">Selecciona un tipo de asistencia.</div>
               </div>
 
               <div class="mb-3" id="descripcion_group" style="display: none;">
-                <label class="form-label">Descripción adicional:</label>
-                <input type="text" name="descripcion" class="form-control" maxlength="50">
+                <label class="form-label" for="descripcion" data-bs-toggle="tooltip" title="Cuando se requiere justificar el registro">Descripción adicional</label>
+                <input type="text" id="descripcion" name="descripcion" class="form-control" maxlength="50">
+                <div class="invalid-feedback">Ingresa una descripción.</div>
               </div>
 
               <input type="hidden" name="fingerprint" id="fingerprint_input">
@@ -63,12 +62,17 @@
   const RADIO_METROS = 500;
 
   document.addEventListener("DOMContentLoaded", function () {
+    // Tooltips Bootstrap
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+
     $('.select2').select2({ width: '100%' });
 
     const form = document.querySelector("form");
     const fingerprintInput = document.getElementById("fingerprint_input");
     const tipoSelect = document.getElementById('tipo_evento');
     const descripcionGroup = document.getElementById('descripcion_group');
+    const descripcionInput = document.getElementById('descripcion');
     let fingerprintListo = false;
 
     // FingerprintJS
@@ -96,12 +100,35 @@
       });
     });
 
-    // Mostrar/ocultar campo descripción según tipo de asistencia
+    // Mostrar/ocultar campo descripción según tipo de asistencia y marcar requerido si aplica
     tipoSelect.addEventListener('change', function () {
-      const textoSeleccionado = tipoSelect.options[tipoSelect.selectedIndex].text;
-      const mostrar = textoSeleccionado === 'Entrada por otros' || textoSeleccionado === 'Salida por otros';
-      descripcionGroup.style.display = mostrar ? 'block' : 'none';
+      const textoSeleccionado = tipoSelect.options[tipoSelect.selectedIndex]?.text || '';
+      const requiere = textoSeleccionado === 'Entrada por otros' || textoSeleccionado === 'Salida por otros';
+      descripcionGroup.style.display = requiere ? 'block' : 'none';
+      if (requiere) {
+        descripcionInput?.setAttribute('required', 'required');
+      } else {
+        descripcionInput?.removeAttribute('required');
+        if (descripcionInput) {
+          descripcionInput.classList.remove('is-invalid', 'is-valid');
+          descripcionInput.value = '';
+        }
+      }
+      if (tipoSelect.value) {
+        tipoSelect.classList.remove('is-invalid');
+        tipoSelect.classList.add('is-valid');
+      }
     });
+
+    const validateRequired = (el) => {
+      if (!el) return true;
+      const v = (el.value || '').trim();
+      if (!v) { el.classList.add('is-invalid'); el.classList.remove('is-valid'); return false; }
+      el.classList.remove('is-invalid'); el.classList.add('is-valid'); return true;
+    };
+
+    tipoSelect.addEventListener('blur', () => validateRequired(tipoSelect));
+    descripcionInput?.addEventListener('input', () => validateRequired(descripcionInput));
 
     // Enter para enviar
     document.addEventListener('keydown', (e) => {
@@ -111,15 +138,19 @@
       }
     });
 
-    // Envío del formulario con validación de fingerprint y ubicación
+    // Envío del formulario con validación y ubicación
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      // Si no hay fingerprint, continuar sin bloquear; el backend lo maneja como opcional
-      // if (!fingerprintListo || !fingerprintInput.value) {
-      //   alert("Fingerprint aún no cargado. Espera un momento...");
-      //   return;
-      // }
+      const validoTipo = validateRequired(tipoSelect);
+      let validoDescripcion = true;
+      const requiereDescripcion = descripcionGroup.style.display !== 'none';
+      if (requiereDescripcion && descripcionInput) {
+        validoDescripcion = validateRequired(descripcionInput);
+      }
+      if (!(validoTipo && validoDescripcion)) {
+        return;
+      }
 
       if (!navigator.geolocation) {
         alert("Tu navegador no soporta geolocalización.");

@@ -65,7 +65,7 @@ body::before{
     color:#fff; font-weight:800; letter-spacing:.4px;
     padding: 8px 14px; border-radius: 999px; box-shadow: 0 6px 16px rgba(0,0,0,.25);
 }
-.brand-pill img{ height:22px; width:22px; object-fit:contain; margin-right:8px; vertical-align:middle; }
+.brand-pill img{ height:24px; width:24px; object-fit:contain; margin-right:10px; vertical-align:middle; padding:2px; border-radius:6px; background: rgba(255,255,255,.08); box-shadow: 0 0 0 2px rgba(255,255,255,.06) inset; }
 
 .title-gradient{ background: linear-gradient(90deg, #00b4ff, #3b82f6, #f5b301); -webkit-background-clip:text; background-clip:text; color:transparent; }
 

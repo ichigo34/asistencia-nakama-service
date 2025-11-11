@@ -98,9 +98,16 @@ if DATABASE_URL:
         DATABASES = {
             'default': dj_database_url.config(
                 default=DATABASE_URL,
-                conn_max_age=600,
+                conn_max_age=0,  # No mantener conexiones persistentes con pgbouncer
+                conn_health_checks=True,  # Verificar salud de conexiones
                 ssl_require=True,
             )
+        }
+        # Optimización adicional para pgbouncer
+        DATABASES['default']['OPTIONS'] = {
+            'sslmode': 'require',
+            'connect_timeout': 10,
+            'options': '-c statement_timeout=30000'  # 30 segundos timeout
         }
     except Exception:
         # Fall back to explicit variables if URL is invalid

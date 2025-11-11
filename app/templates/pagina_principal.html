@@ -4,76 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Asistencia</title>
+    <title>NAKAMA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/theme.css' %}">
 </head>
 <body class="home">
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-10 col-lg-8 col-xxl-6">
-        <div class="card card-plain p-4 p-md-5 text-center">
-          <!-- Header -->
-          <div class="d-flex flex-column align-items-center mb-3">
-            <h1 class="brand-title mb-1">NAKAMA • Asistencia</h1>
-            <div class="title-underline"></div>
-          </div>
-          
-          <!-- Contenido -->
-          <div class="mb-2">
-            <h2 class="fw-bold mb-2 text-dark">Sistema de asistencia</h2>
-            <p class="text-secondary mb-3"><i class="bi bi-phone me-1" aria-hidden="true"></i> Usa tu celular para registrarte</p>
-          </div>
-          
-          <div class="info-card info-soft mx-auto mb-4">
-            <p class="mb-1 text-dark">Primera vez te vinculamos por dispositivo.</p>
-            <p class="mb-0 text-brand fw-semibold">Luego te reconocemos automáticamente.</p>
-          </div>
-          
-          <!-- Botón -->
-          <div class="d-grid mb-3">
-            <a id="btn-registrarse" href="{% url 'identificar_dispositivo' %}" class="btn btn-register">
-              <i class="bi bi-phone me-2" aria-hidden="true"></i> REGISTRARSE
-            </a>
-          </div>
+  <main class="hero-center text-center">
+    <h1 class="hero-title">NAKAMA</h1>
+    <h2 class="hero-subtitle">Registro de control</h2>
 
-          <!-- Acceso rápido a reportes (un clic; si no has iniciado sesión te lleva al login) -->
-          <div class="d-grid mb-2">
-            <a href="{% url 'pagina_descarga_excel' %}" class="btn btn-success">
-              <i class="bi bi-file-earmark-excel me-2" aria-hidden="true"></i> DESCARGAR REPORTES
-            </a>
-          </div>
-          
-          <!-- Puntos decorativos -->
-          <div class="dots">
-            <span class="dot indigo"></span>
-            <span class="dot purple"></span>
-            <span class="dot pink"></span>
-          </div>
-      </div>
+    <div class="container-sm btn-stack">
+      <a id="btn-registrarse" href="{% url 'identificar_dispositivo' %}" class="btn btn-lg-pill btn-register-yellow">
+        <i class="bi bi-phone btn-icon-left" aria-hidden="true"></i>
+        REGISTRARSE
+      </a>
+      <a href="{% url 'pagina_descarga_excel' %}" class="btn btn-lg-pill btn-reports-green">
+        <i class="bi bi-download btn-icon-left" aria-hidden="true"></i>
+        DESCARGAR REPORTES
+      </a>
     </div>
-  </div>
-
-  <script>
-    // Estados interactivos del botón: loading y success sin alterar la funcionalidad
-    const btn = document.getElementById('btn-registrarse');
-    if (btn) {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const url = btn.getAttribute('href');
-        if (btn.classList.contains('loading')) return;
-        btn.classList.add('loading');
-        btn.textContent = '⌛ CARGANDO...';
-        setTimeout(() => {
-          btn.classList.remove('loading');
-          btn.classList.add('success');
-          btn.textContent = '✔ LISTO';
-          setTimeout(() => { window.location.href = url; }, 300);
-        }, 600);
-      });
-    }
-  </script>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
