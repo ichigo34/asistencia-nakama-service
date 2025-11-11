@@ -49,7 +49,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- FingerprintJS deshabilitado para forzar selección manual -->
+  <script src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js"></script>
   <script>
     let visitorId = null;
     // Obtener token CSRF desde cookie
@@ -70,12 +70,43 @@
       document.getElementById('form-vincular').style.display = 'block';
     }
 
-    // Autodetección deshabilitada: obligamos selección manual
-    function identificar() { /* noop */ }
+    // Detección sin redirección automática: si ya está vinculado, ofrecer confirmación
+    async function identificar() {
+      try {
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        visitorId = result.visitorId;
 
-    document.addEventListener('DOMContentLoaded', () => {
+        const res = await fetch('{% url "api_identificar_por_fingerprint" %}', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') || '' },
+          body: JSON.stringify({ fingerprint: visitorId })
+        });
+        const data = await res.json();
+        if (data.success && data.empleado && data.empleado.id) {
+          setEstado(`¿Eres ${data.empleado.nombre_completo}?`, 'info');
+          const cont = document.createElement('div');
+          cont.className = 'd-flex gap-2 justify-content-center mb-3';
+          const btnYes = document.createElement('a');
+          btnYes.className = 'btn btn-primary btn-sm';
+          btnYes.textContent = 'Sí, entrar';
+          btnYes.href = `/auto/empleado/${data.empleado.id}/`;
+          const btnNo = document.createElement('button');
+          btnNo.className = 'btn btn-outline-warning btn-sm';
+          btnNo.textContent = 'No soy yo';
+          btnNo.onclick = () => { document.getElementById('form-vincular').style.display = 'block'; cont.remove(); };
+          cont.appendChild(btnYes); cont.appendChild(btnNo);
+          document.getElementById('estado').after(cont);
+          // Mantener el formulario oculto hasta confirmar "No soy yo"
+          return;
+        }
+      } catch(_) { /* ignorar */ }
       setEstado('Selecciona tu nombre para continuar.', 'secondary');
       mostrarFormulario();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      identificar();
 
       // Enter para enviar
       document.addEventListener('keydown', (e) => {
