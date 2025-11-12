@@ -542,7 +542,13 @@ def control_actividades(request, empleado_id):
         )
         messages.success(request, 'Actividad registrada correctamente.')
 
-        # Finalizar flujo
-        return redirect('identificar_dispositivo')
+        # Mostrar pantalla de registro exitoso con datos, como en las otras opciones
+        from .utils import obtener_fecha_hora_actual
+        fecha, hora = obtener_fecha_hora_actual()
+        return render(request, 'asistencia_exitosa.html', {
+            'fecha': fecha,
+            'hora': hora,
+            'empleado': empleado,
+        })
 
     return render(request, 'control_actividades.html', {'empleado': empleado})
