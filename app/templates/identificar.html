@@ -19,8 +19,8 @@
           <div class="card-body pt-0">
             <small id="estado" class="text-muted d-block mb-3">Selecciona tu nombre para continuar.</small>
 
-            <!-- Selección de empleado obligatoria -->
-            <form id="form-vincular" class="text-start" style="display: block;">
+            <!-- Selección de empleado: oculta por defecto; se muestra solo si no te reconoce o eliges "No soy yo" -->
+            <form id="form-vincular" class="text-start" style="display: none;">
               {% csrf_token %}
               <div class="mb-3">
                 <label class="form-label">Empleado:</label>
@@ -91,7 +91,7 @@
           const btnNo = document.createElement('button');
           btnNo.className = 'btn btn-outline-warning btn-sm';
           btnNo.textContent = 'No soy yo';
-          btnNo.onclick = () => { document.getElementById('form-vincular').style.display = 'block'; cont.remove(); };
+          btnNo.onclick = async () => { await desvincularYMostrar(); cont.remove(); };
           cont.appendChild(btnYes); cont.appendChild(btnNo);
           document.getElementById('estado').after(cont);
           // Mantener el formulario oculto hasta confirmar "No soy yo"
@@ -112,7 +112,6 @@
       }catch(_){ }
       setEstado('Selecciona tu nombre para continuar.', 'secondary');
       mostrarFormulario();
-      document.getElementById('acciones-ident').style.display = 'none';
     }
 
     document.addEventListener('DOMContentLoaded', () => {
