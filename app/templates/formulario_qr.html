@@ -25,12 +25,12 @@
               <div class="mb-3">
                 <label class="form-label" for="tipo_evento" data-bs-toggle="tooltip" title="Selecciona el evento a registrar">Tipo de Asistencia</label>
                 <select name="tipo_evento" id="tipo_evento" class="form-select" required>
-                  <option value="">-- Selecciona un tipo --</option>
+                  <option value=""></option>
                   {% for tipo in tipos_evento %}
                     <option value="{{ tipo.id_tipo }}">{{ tipo.nombre_asistencia }}</option>
                   {% endfor %}
                 </select>
-                <div class="invalid-feedback">Selecciona un tipo de asistencia.</div>
+                <div class="invalid-feedback"></div>
               </div>
 
               <div class="mb-3" id="descripcion_group" style="display: none;">

@@ -399,7 +399,6 @@ def api_identificar_por_fingerprint(request):
                     'nombres': empleado.nombres,
                     'apellidos': empleado.apellidos,
                     'nombre_completo': empleado.nombre_completo,
-                    'dni': empleado.dni,
                 }
             })
         else:

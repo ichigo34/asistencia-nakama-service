@@ -6,8 +6,6 @@ class Empleado(models.Model):
     id_empleado = models.AutoField(primary_key=True)
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
-    dni = models.IntegerField(unique=True)
-    contrato = models.CharField(max_length=50)
     codigo_qr = models.CharField(max_length=20, unique=True, blank=True, null=True)
 
     def __str__(self):
@@ -48,8 +46,8 @@ class Empleado(models.Model):
         """
         if not self.codigo_qr:
             import uuid
-            # Generar código único basado en DNI y timestamp
-            codigo = f"EMP{self.dni}{uuid.uuid4().hex[:8].upper()}"
+            # Generar código único basado en ID y timestamp
+            codigo = f"EMP{self.id_empleado}{uuid.uuid4().hex[:8].upper()}"
             self.codigo_qr = codigo
             self.save()
         return self.codigo_qr

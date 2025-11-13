@@ -49,7 +49,7 @@ class QRService:
         img = qr.make_image(fill_color="black", back_color="white")
         
         # Guardar archivo
-        filename = f"qr_{empleado.dni}_{codigo_qr}.png"
+        filename = f"qr_{empleado.id_empleado}_{codigo_qr}.png"
         filepath = os.path.join(qr_dir, filename)
         img.save(filepath)
         
@@ -100,8 +100,7 @@ class QRService:
                         'id': empleado.id_empleado,
                         'nombres': empleado.nombres,
                         'apellidos': empleado.apellidos,
-                        'nombre_completo': empleado.nombre_completo,
-                        'dni': empleado.dni
+                        'nombre_completo': empleado.nombre_completo
                     }
                 }
             else:
