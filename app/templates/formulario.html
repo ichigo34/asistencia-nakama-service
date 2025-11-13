@@ -25,7 +25,7 @@
               <div class="mb-3">
                 <label class="form-label">Empleado:</label>
                 <select class="form-select select2" name="empleado" required>
-                  <option value="">-</option>
+                  <option value="">-- Selecciona un empleado --</option>
                   {% for emp in empleados %}
                     <option value="{{ emp.id_empleado }}">{{ emp.nombres }} {{ emp.apellidos }}</option>
                   {% endfor %}
@@ -35,7 +35,7 @@
               <div class="mb-3">
                 <label class="form-label">Tipo de Asistencia:</label>
                 <select name="tipo_evento" id="tipo_evento" class="form-select" required>
-                  <option value="">-</option>
+                  <option value="">-- Selecciona un tipo --</option>
                   {% for tipo in tipos_evento %}
                     <option value="{{ tipo.id_tipo }}">{{ tipo.nombre_asistencia }}</option>
                   {% endfor %}
