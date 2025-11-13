@@ -16,16 +16,18 @@
       <div class="col-12 col-md-10 col-lg-7 col-xl-6">
 <div class="card p-4 mt-4 text-center">
 <div class="brand-bar"><span class="brand-pill"><img src="{% static 'img/logo-calidad.svg' %}" alt="Nakama">NAKAMA</span></div>
-        
+          <div class="card-body pt-0">
+            <small id="estado" class="text-muted d-block mb-3">Selecciona tu nombre para continuar.</small>
+
             <!-- Selección de empleado: oculta por defecto; se muestra solo si no te reconoce o eliges "No soy yo" -->
             <form id="form-vincular" class="text-start" style="display: none;">
               {% csrf_token %}
               <div class="mb-3">
                 <label class="form-label">Empleado:</label>
                 <select name="empleado_id" id="empleado_id" class="form-select" required>
-                  <option value="">-</option>
+                  <option value="">--Seleccione su nombre --</option>
                   {% for emp in empleados %}
-                    <option value="{{ emp.id_empleado }}">{{ emp.apellidos }}, {{ emp.nombres }} </option>
+                    <option value="{{ emp.id_empleado }}">{{ emp.apellidos }}, {{ emp.nombres }} (DNI {{ emp.dni }})</option>
                   {% endfor %}
                 </select>
               </div>
