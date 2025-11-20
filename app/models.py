@@ -6,7 +6,6 @@ class Empleado(models.Model):
     id_empleado = models.AutoField(primary_key=True)
     nombres = models.CharField(max_length=50)
     apellidos = models.CharField(max_length=50)
-    codigo_qr = models.CharField(max_length=20, unique=True, blank=True, null=True)
 
     def __str__(self):
         return f"{self.nombres} {self.apellidos}"
@@ -36,37 +35,6 @@ class Empleado(models.Model):
         """Obtiene todos los registros del empleado para hoy."""
         hoy = timezone.localtime().date()
         return self.registroasistencia_set.filter(fecha_registro=hoy).order_by('hora_registro')
-    
-    def generar_codigo_qr(self):
-        """
-        Genera un código QR único para el empleado si no existe.
-        
-        Returns:
-            str: Código QR generado
-        """
-        if not self.codigo_qr:
-            import uuid
-            # Generar código único basado en ID y timestamp
-            codigo = f"EMP{self.id_empleado}{uuid.uuid4().hex[:8].upper()}"
-            self.codigo_qr = codigo
-            self.save()
-        return self.codigo_qr
-    
-    @classmethod
-    def buscar_por_codigo_qr(cls, codigo):
-        """
-        Busca un empleado por su código QR.
-        
-        Args:
-            codigo: Código QR a buscar
-            
-        Returns:
-            Empleado o None si no se encuentra
-        """
-        try:
-            return cls.objects.get(codigo_qr=codigo)
-        except cls.DoesNotExist:
-            return None
 
 class DispositivoEmpleado(models.Model):
     """Vincula un dispositivo (fingerprint) con un empleado para auto-identificación."""

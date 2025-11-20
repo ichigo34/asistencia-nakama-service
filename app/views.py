@@ -7,7 +7,6 @@ from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 from .models import Empleado, TipoAsistencia, RegistroAsistencia, DispositivoEmpleado, ActividadProyecto
 from .services import AsistenciaService, ReporteService
-from .qr_service import QRService
 from .utils import obtener_fecha_hora_actual
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Border, Side
@@ -221,13 +220,6 @@ def pagina_principal(request):
     return render(request, 'pagina_principal.html')
 
 
-def escanear_qr(request):
-    """
-    Página para escanear código QR.
-    """
-    return render(request, 'escanear_qr.html')
-
-
 @ensure_csrf_cookie
 def identificar_dispositivo(request):
     """
@@ -236,64 +228,6 @@ def identificar_dispositivo(request):
     """
     empleados = Empleado.objects.order_by('apellidos', 'nombres')
     return render(request, 'identificar.html', { 'empleados': empleados })
-
-
-def registrar_asistencia_qr(request, codigo_qr):
-    """
-    Vista para registrar asistencia usando código QR.
-    Detecta automáticamente al empleado.
-    """
-    empleado = Empleado.buscar_por_codigo_qr(codigo_qr)
-    
-    if not empleado:
-        messages.error(request, 'Código QR no válido o empleado no encontrado.')
-        return render(request, 'error_qr.html')
-    
-    tipos_evento = TipoAsistencia.objects.all()
-
-    if request.method == 'POST':
-        tipo_id = request.POST.get('tipo_evento')
-        descripcion = request.POST.get('descripcion') or ''
-        fingerprint = request.POST.get('fingerprint')
-
-        # Validar datos requeridos
-        if not tipo_id:
-            messages.error(request, 'Debe seleccionar un tipo de asistencia.')
-            return render(request, 'formulario_qr.html', {
-                'empleado': empleado,
-                'tipos_evento': tipos_evento
-            })
-
-        # Usar el servicio para crear el registro
-        success, message, registro = AsistenciaService.crear_registro_asistencia(
-            empleado.id_empleado, tipo_id, descripcion, fingerprint
-        )
-
-        if success:
-            # DESHABILITADO TEMPORALMENTE: flujo de Control de Actividades tras ENTRADA
-            # try:
-            #     if registro.tipo.nombre_asistencia == 'Entrada':
-            #         from django.utils import timezone
-            #         hoy = timezone.localtime().date()
-            #         if not ActividadProyecto.objects.filter(empleado=registro.empleado, fecha=hoy).exists():
-            #             return redirect('control_actividades', empleado_id=registro.empleado.id_empleado)
-            # except Exception:
-            #     pass
-
-            messages.success(request, message)
-            fecha, hora = obtener_fecha_hora_actual()
-            return render(request, 'asistencia_exitosa.html', {
-                'fecha': fecha,
-                'hora': hora,
-                'empleado': registro.empleado
-            })
-        else:
-            messages.error(request, message)
-
-    return render(request, 'formulario_qr.html', {
-        'empleado': empleado,
-        'tipos_evento': tipos_evento
-    })
 
 
 def registrar_asistencia_auto(request, empleado_id):
@@ -345,31 +279,6 @@ def registrar_asistencia_auto(request, empleado_id):
         'empleado': empleado,
         'tipos_evento': tipos_evento
     })
-
-
-@require_http_methods(["POST", "OPTIONS"])
-def api_buscar_empleado_qr(request):
-    """
-    API para buscar empleado por código QR.
-    """
-    # Responder preflight/local OPTIONS
-    if request.method == 'OPTIONS':
-        return JsonResponse({'success': True})
-    try:
-        data = json.loads(request.body)
-        codigo_qr = data.get('codigo_qr')
-        
-        if not codigo_qr:
-            return JsonResponse({'success': False, 'error': 'Código QR requerido'}, status=400)
-        
-        resultado = QRService.buscar_empleado_por_qr(codigo_qr)
-        status_code = 200 if resultado.get('success') else 404
-        return JsonResponse(resultado, status=status_code)
-        
-    except json.JSONDecodeError:
-        return JsonResponse({'success': False, 'error': 'Datos JSON inválidos'}, status=400)
-    except Exception as e:
-        return JsonResponse({'success': False, 'error': f'Error del servidor: {str(e)}'}, status=500)
 
 
 @require_http_methods(["POST", "OPTIONS"])
