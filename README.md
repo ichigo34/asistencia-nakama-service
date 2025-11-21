@@ -111,6 +111,98 @@ Calcula tiempos por día y empleado:
 - **Horas por Permiso (Otros)**: "Salida por otros" a "Entrada por otros".
 - **Horas Trabajadas Totales**: `Entrada` → `Salida` menos almuerzo y permisos.
 
+## Guía paso a paso del sistema
+
+### 1. Levantar el sistema desde cero
+
+1. **Clonar el repositorio** (si aún no lo tienes):
+   ```bash
+   git clone https://github.com/thaliat3/asistencia-nakama-service.git
+   cd asistencia-nakama-service
+   ```
+2. **Crear y activar entorno virtual** (Windows PowerShell):
+   ```bash
+   python -m venv .venv
+   . .venv/Scripts/activate  # o .venv\Scripts\Activate.ps1
+   ```
+3. **Instalar dependencias**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. **Configurar variables de entorno**:
+   - Copia `example.env` a `.env`.
+   - Para desarrollo rápido deja:
+     - `DB_LIVE=False`
+     - `DATABASE_URL` vacío (se usará SQLite local `db.sqlite3`).
+5. **Aplicar migraciones**:
+   ```bash
+   python manage.py migrate
+   ```
+6. **Crear usuario administrador (staff)**:
+   ```bash
+   python manage.py createsuperuser
+   ```
+7. **Cargar empleados y tipos de asistencia de ejemplo**:
+   ```bash
+   python cargar_empleados.py
+   ```
+8. **Levantar el servidor de desarrollo**:
+   ```bash
+   python manage.py runserver
+   ```
+9. Abrir en el navegador:
+   - Formulario de asistencia: `http://127.0.0.1:8000/`
+   - Login (staff): `http://127.0.0.1:8000/login/`
+   - Página de descargas: `http://127.0.0.1:8000/login/descarga/`
+
+### 2. Flujo diario de uso (empleados)
+
+1. El empleado abre `http://127.0.0.1:8000/` (o la URL desplegada).
+2. Selecciona su **nombre** en la lista de empleados.
+3. Elige el **tipo de evento** (Entrada, Salida, Inicio/Fin Almuerzo, Comisión, Otros).
+4. (Opcional) Escribe una **descripción** cuando aplique (por ejemplo, en "Salida por otros").
+5. (Opcional) Si el frontend envía `fingerprint`, el backend:
+   - Valida que el mismo dispositivo no registre para 2 empleados diferentes el mismo día.
+6. Envía el formulario y verifica el mensaje de éxito.
+
+### 3. Flujo diario de uso (administrador)
+
+1. Inicia sesión en `http://127.0.0.1:8000/login/` con un usuario `is_staff=True`.
+2. Tras el login, accede a `http://127.0.0.1:8000/login/descarga/`.
+3. Desde esa página puedes:
+   - **Descargar asistencia (detalle)** → Excel con todos los registros.
+   - **Descargar resumen diario** → Excel con horas de almuerzo, comisión, permisos y horas trabajadas.
+
+### 4. Uso de QR (opcional)
+
+1. Edita la variable `url` en `generar_qr.py` para que apunte a la página que quieres (por ejemplo, la de identificación por dispositivo).
+2. Ejecuta:
+   ```bash
+   python generar_qr.py
+   ```
+3. Se generará `qr_asistencia.png` que puedes imprimir y colocar para que los empleados lo escaneen.
+
+### 5. Subir cambios al repositorio GitHub
+
+Si modificas el código o la configuración y quieres subir los cambios:
+
+1. Revisa el estado del repositorio:
+   ```bash
+   git status
+   ```
+2. Añade los archivos que quieras subir:
+   ```bash
+   git add .
+   ```
+3. Crea un commit con un mensaje descriptivo:
+   ```bash
+   git commit -m "Actualiza documentación paso a paso del sistema"
+   ```
+4. Sube los cambios a GitHub:
+   ```bash
+   git push origin main
+   ```
+
 ## Generación de QR (opcional)
 Edita la variable `url` en `generar_qr.py` y ejecuta:
 ```bash
